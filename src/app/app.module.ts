@@ -14,10 +14,26 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { HephaestusTableComponent } from './shared/components/table/hephaestus-table/hephaestus-table.component';
+import { MainViewComponent } from './main/main-view/main-view.component';
+import { AdvancedViewComponent } from './advanced/advanced-view/advanced-view.component';
+import { FooterComponent } from './shared/components/footer/footer/footer.component';
+import { HeaderComponent } from './shared/components/header/header/header.component';
+import { SearchFilterComponent } from './shared/components/search-filter/search-filter/search-filter.component';
+import { ChosenMetricComponent } from './shared/components/table/choosen-metric/chosen-metric/chosen-metric.component';
+import { MetricComponent } from './shared/components/table/metric/metric/metric.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HephaestusTableComponent,
+    MainViewComponent,
+    AdvancedViewComponent,
+    FooterComponent,
+    HeaderComponent,
+    SearchFilterComponent,
+    ChosenMetricComponent,
+    MetricComponent
   ],
   imports: [
     BrowserAnimationsModule,
