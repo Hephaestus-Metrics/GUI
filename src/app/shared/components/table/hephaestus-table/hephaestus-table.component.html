@@ -1,1 +1,30 @@
-<p>hephaestus-table works!</p>
+<div class="table-container">
+    <div class="list-container">
+        <div class="table-header">
+            <h2 style="float: left;">Selected Metrics</h2>
+            <button style="float: right;" (click)="clearSelected()">Clear All</button>
+        </div>
+        <div style="height: 500px; overflow-y: auto" cdkScrollable>
+            <div cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selectedMetrics" class="example-list"
+                 (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of selectedMetrics" cdkDrag>{{item.getTextRepresentation()}}
+                    <button (click)="unselectMetric(item)">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="list-container">
+        <div class="table-header">
+            <h2 style="float: left;">Available Metrics</h2>
+            <button style="float: right;"  (click)="addQuery()">Select All as a Query</button>
+        </div>
+        <div style="height: 500px; overflow-y: auto" cdkScrollable>
+            <div cdkDropList #availableList="cdkDropList" [cdkDropListData]="availableMetrics"
+                 [cdkDropListConnectedTo]="[selectedList]" class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of availableMetrics" cdkDrag>{{item.getTextRepresentation()}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

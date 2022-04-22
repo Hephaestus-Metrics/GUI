@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {HephaestusService} from "../../shared/service/hephaestus/hephaestus.service";
 
 @Component({
   selector: 'app-main-view',
@@ -8,23 +7,9 @@ import {HephaestusService} from "../../shared/service/hephaestus/hephaestus.serv
 })
 export class MainViewComponent implements OnInit {
 
-  metrics: any;
-  labels: Map<string, string> | undefined;
-  visible: boolean = false;
-  label: string = "NIe MA"
-
-  constructor(private hephaestusService: HephaestusService) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  getMetrics() {
-    this.metrics = this.hephaestusService.getMetrics()
-        .pipe()
-        .subscribe(x => {
-          this.metrics = x.Data;
-          this.labels = x.Data.Labels;
-        });
   }
 
 }

@@ -15,10 +15,13 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HephaestusService} from "../../shared/service/hephaestus/hephaestus.service";
 import {MainViewComponent} from "./main-view.component";
 import {HttpClientModule} from "@angular/common/http";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {HephaestusTableComponent} from "../../shared/components/table/hephaestus-table/hephaestus-table.component";
 
 @NgModule({
   declarations: [
-    MainViewComponent
+    MainViewComponent,
+    HephaestusTableComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -32,6 +35,7 @@ import {HttpClientModule} from "@angular/common/http";
     MatSelectModule,
     MatSliderModule,
     MatSlideToggleModule,
+    DragDropModule,
     BrowserModule,
     HttpClientModule
   ],

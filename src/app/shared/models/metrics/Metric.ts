@@ -1,4 +1,4 @@
 export interface Metric {
-    Name: string;
-    Labels: Map<string, string>;
+    name: string;
+    labels: Map<string, string>;
 }
