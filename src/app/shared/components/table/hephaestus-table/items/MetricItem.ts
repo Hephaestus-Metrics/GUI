@@ -14,8 +14,8 @@ export class MetricItem {
         this.labels = labels;
     }
 
-    public getTextRepresentation(): string {
-        return Array.from((this.labels.entries())).map(pair => pair[0] + ': ' + pair[1]).join(', ');
+    public getTextRepresentation(): string[] {
+        return Array.from((this.labels.entries())).map(pair => pair[0] + ': ' + pair[1]);
     }
 
     public checkConflict(other: MetricItem): boolean {
