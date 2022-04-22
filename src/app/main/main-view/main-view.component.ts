@@ -11,7 +11,6 @@ export class MainViewComponent implements OnInit {
   metrics: any;
   labels: Map<string, string> | undefined;
   visible: boolean = false;
-  label: string = "NIe MA"
 
   constructor(private hephaestusService: HephaestusService) { }
 
@@ -23,7 +22,7 @@ export class MainViewComponent implements OnInit {
         .pipe()
         .subscribe(x => {
           this.metrics = x.Data;
-          this.labels = x.Data.Labels;
+          this.labels = x.Data[0].Labels;
         });
   }
 
