@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {MetricItem} from "./items/MetricItem";
-import {HephaestusService} from "../../../service/hephaestus/hephaestus.service";
-import {toMetricItem} from "./items/ToMetricItem";
+import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { MetricItem } from "./items/MetricItem";
+import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
+import { toMetricItem } from "./items/ToMetricItem";
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -26,16 +26,16 @@ export class HephaestusTableComponent implements OnInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       //conflict checking alpha ---------------------------------------------
-      const newMetric: MetricItem =  event.previousContainer.data[event.previousIndex];
-      for (const metric of this.selectedMetrics){
+      const newMetric: MetricItem = event.previousContainer.data[event.previousIndex];
+      for (const metric of this.selectedMetrics) {
         metric.checkConflict(newMetric);
       }
       // --------------------------------------------------------------------
       transferArrayItem(
-          event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex,
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
       );
     }
   }
@@ -46,6 +46,12 @@ export class HephaestusTableComponent implements OnInit {
     while (index !== -1) {
       this.selectedMetrics.splice(index, 1);
       index = this.selectedMetrics.indexOf(item);
+    }
+    for (const parent of item.parents) {
+      parent.children.delete(item);
+    }
+    for (const child of item.children) {
+      child.parents.delete(item);
     }
 
     // TODO refresh available metrics
@@ -60,23 +66,23 @@ export class HephaestusTableComponent implements OnInit {
     //      remove x from newLsit
   }
 
-  clearSelected(){
+  clearSelected() {
     this.selectedMetrics = [];
     //TODO refresh available
   }
 
-  addQuery(){
+  addQuery() {
     //TODO
     console.log('Adding query from filters and looking for conflicts :)');
   }
 
   private getMetrics() {
     this.metrics = this.hephaestusService.getMetrics()
-        .pipe()
-        .subscribe(x => {
-          this.metrics = x.Data;
-          this.availableMetrics = toMetricItem(this.metrics);
-        });
+      .pipe()
+      .subscribe(x => {
+        this.metrics = x.Data;
+        this.availableMetrics = toMetricItem(this.metrics);
+      });
   }
 
 }

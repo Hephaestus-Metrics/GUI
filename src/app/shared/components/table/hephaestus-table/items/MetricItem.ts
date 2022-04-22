@@ -5,13 +5,15 @@ export class MetricItem {
         this.labels = labels;
     }
 
-    private conflicts: Set<MetricItem> = new Set<MetricItem>();
-
     public readonly isQuery: boolean = false;
 
+    public parents = new Set<MetricItem>();
+
+    public children = new Set<MetricItem>();
+
     public getTextRepresentation(): string{
-        return Array.from((this.labels.entries())).map(pair => pair[0] + ': ' + pair[1]).join(', ') +
-            ((this.conflicts.size > 0) ? "CONFLICT!!!!!!!!!!!!!!" : "");
+        return Array.from((this.labels.entries())).map(pair => pair[0] + ': ' + pair[1]).join(', ') + '>>> ' +
+            this.parents.size;
     }
 
     public equals(other: MetricItem): boolean{
@@ -38,20 +40,8 @@ export class MetricItem {
                 return false;
             }
         }
-        other.conflicts.add(this);
-        this.conflicts.add(other);
+        shorter.children.add(longer);
+        longer.parents.add(shorter);
         return true;
     }
-
-    //TODO remove
-    public addRand(){
-        this.labels.set((Math.random() + 1).toString(36).substring(7),(Math.random() + 1).toString(36).substring(7));
-    }
 }
-
-// TODO as a would -> automatic conflict resolution:
-// e.g select narrowest case delete -> delete from conflicts -> repeat
-// warning -> selecting narrowest is not optimal
-// possible better solution -> build tree of conflicts of selected metrics
-// tree can result in optimization in many places
-// dealing with diamond case but should be doable
