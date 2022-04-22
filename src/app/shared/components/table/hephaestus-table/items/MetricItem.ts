@@ -38,7 +38,6 @@ export class MetricItem {
                 return false;
             }
         }
-        console.log(this, other);
         other.conflicts.add(this);
         this.conflicts.add(other);
         return true;
@@ -47,10 +46,6 @@ export class MetricItem {
     //TODO remove
     public addRand(){
         this.labels.set((Math.random() + 1).toString(36).substring(7),(Math.random() + 1).toString(36).substring(7));
-    }
-
-    setLabels(map: Map<string, string>): void {
-        this.labels = map;
     }
 }
 

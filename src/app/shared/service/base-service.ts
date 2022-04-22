@@ -10,7 +10,6 @@ export class BaseService {
     }
 
     get<T>(url: string): Observable<T> {
-        console.log(this.backendUrl + url);
         return this.http.get<T>(this.backendUrl + url);
     }
 }

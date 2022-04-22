@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {MetricItem} from "./MetricItem";
+import {MetricItem} from "./items/MetricItem";
 import {HephaestusService} from "../../../service/hephaestus/hephaestus.service";
-import {toMetricItem} from "./ToMetricItem";
+import {toMetricItem} from "./items/ToMetricItem";
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -22,7 +22,6 @@ export class HephaestusTableComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<MetricItem[]>) {
-    console.log(event.container.data);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -76,9 +75,6 @@ export class HephaestusTableComponent implements OnInit {
         .pipe()
         .subscribe(x => {
           this.metrics = x.Data;
-          console.log(x.Data);
-          // this.labels = x.Data.Labels;
-          console.log(this.metrics);
           this.availableMetrics = toMetricItem(this.metrics);
         });
   }
