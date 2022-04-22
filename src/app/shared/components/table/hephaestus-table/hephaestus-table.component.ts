@@ -11,9 +11,10 @@ import { toMetricItem } from "./items/ToMetricItem";
 })
 export class HephaestusTableComponent implements OnInit {
 
-  metrics: any;
-  selectedMetrics: MetricItem[] = [];
-  availableMetrics: MetricItem[] = [];
+  private metrics: any;
+  private selectedLabelsSet: Set<Map<string, string>> = new Set <Map<string, string>>();
+  public selectedMetrics: MetricItem[] = [];
+  public availableMetrics: MetricItem[] = [];
 
   constructor(private hephaestusService: HephaestusService) { }
 
@@ -25,12 +26,11 @@ export class HephaestusTableComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      //conflict checking alpha ---------------------------------------------
       const newMetric: MetricItem = event.previousContainer.data[event.previousIndex];
       for (const metric of this.selectedMetrics) {
         metric.checkConflict(newMetric);
       }
-      // --------------------------------------------------------------------
+      this.selectedLabelsSet.add(newMetric.labels);
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -40,35 +40,26 @@ export class HephaestusTableComponent implements OnInit {
     }
   }
 
-  // TODO NOT ANY
-  unselectMetric(item: any) {
+  unselectMetric(item: MetricItem) {
     let index: number = this.selectedMetrics.indexOf(item);
     while (index !== -1) {
       this.selectedMetrics.splice(index, 1);
       index = this.selectedMetrics.indexOf(item);
     }
-    for (const parent of item.parents) {
-      parent.children.delete(item);
-    }
-    for (const child of item.children) {
-      child.parents.delete(item);
-    }
-
-    // TODO refresh available metrics
+    this.selectedLabelsSet.delete(item.labels);
+    item.delete();
+    // todo refresh available metrics
   }
 
-  //todo refresh
   setAvailableList(newList: MetricItem[]) {
-    // assumption: S - set of selected metrics
-    // === works as .equals
-    // for x in newLsit:
-    //  if x in S:
-    //      remove x from newLsit
+    newList.filter((metric) => {!this.selectedLabelsSet.has(metric.labels)});
+    this.availableMetrics = newList;
   }
 
   clearSelected() {
     this.selectedMetrics = [];
-    //TODO refresh available
+    this.selectedLabelsSet =new Set <Map<string, string>>(); 
+    // todo refresh available
   }
 
   addQuery() {
@@ -81,7 +72,7 @@ export class HephaestusTableComponent implements OnInit {
       .pipe()
       .subscribe(x => {
         this.metrics = x.Data;
-        this.availableMetrics = toMetricItem(this.metrics);
+        this.setAvailableList(toMetricItem(this.metrics));
       });
   }
 

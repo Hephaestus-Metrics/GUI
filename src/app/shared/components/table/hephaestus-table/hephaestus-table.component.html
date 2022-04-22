@@ -8,6 +8,7 @@
             <div cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selectedMetrics" class="example-list"
                  (cdkDropListDropped)="drop($event)">
                 <div class="example-box" *ngFor="let item of selectedMetrics" cdkDrag>{{item.getTextRepresentation()}}
+                    <div *ngIf="item.hasConflict">⚠️</div>
                     <button (click)="unselectMetric(item)">X</button>
                 </div>
             </div>
