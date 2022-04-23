@@ -4,6 +4,7 @@ import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
 import { mapToString } from "../../../utilities/MapToString";
 import { toMetricItem } from "./items/ToMetricItem";
+import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -12,12 +13,11 @@ import { toMetricItem } from "./items/ToMetricItem";
 })
 export class HephaestusTableComponent implements OnInit {
 
-  private metrics: any;
-  private selectedLabelsSet: Set<string> = new Set <string>();
+  private selectedLabelsSet: Set<string> = new Set<string>();
   public selectedMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
 
-  constructor(private hephaestusService: HephaestusService) { }
+  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService) { }
 
   ngOnInit(): void {
     this.getMetrics();
@@ -74,11 +74,10 @@ export class HephaestusTableComponent implements OnInit {
   }
 
   private getMetrics() {
-    this.metrics = this.hephaestusService.getMetrics()
-      .pipe()
-      .subscribe(x => {
-        this.metrics = x.Data;
-        this.setAvailableList(toMetricItem(this.metrics));
+    this.prometheusService.getDisplayableMetrics()
+      .subscribe(metrics => {
+        console.log(toMetricItem(metrics))
+        this.setAvailableList(toMetricItem(metrics));
       });
   }
 
