@@ -75,6 +75,7 @@ export class SearchFilterComponent implements OnInit {
     } else {
       //user is inputting a value
       this.filters.set(this.activeLabel, choice);
+      this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
 
       this.activeLabel = undefined;
       this.placeholderText = "Choose label";
@@ -91,6 +92,7 @@ export class SearchFilterComponent implements OnInit {
 
   onFilterRemoved(label: string){
     this.filters.delete(label);
+    this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
   }
 
 }
