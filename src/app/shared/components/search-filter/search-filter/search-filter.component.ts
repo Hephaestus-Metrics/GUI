@@ -26,24 +26,13 @@ export class SearchFilterComponent implements OnInit {
 
   filters: Map<string, string> = new Map()
 
-  private _filter(options: string[], value: string): string[] {
-    if (value){
-      const filterValue = value.toLowerCase();
-
-      // TODO improve this filter to sort by best match
-      return options.filter(option => option.toLowerCase().includes(filterValue));
-    } else {
-      return options;
-    }
-  }
-
   constructor(private prometheusService: PrometheusService) { }
 
   ngOnInit(): void {
     this.options.asObservable().subscribe((options) => {
       this.filteredOptions = this.formControl.valueChanges.pipe(
         startWith(''),
-        map(value => this._filter(options, value)),
+        map(value => this.filterOptions(options, value)),
       );
     });
 
@@ -53,6 +42,17 @@ export class SearchFilterComponent implements OnInit {
         this.options.next(this.allLabels);
       }
     });
+  }
+
+  private filterOptions(options: string[], value: string): string[] {
+    if (value){
+      const filterValue = value.toLowerCase();
+
+      // TODO improve this filter to sort by best match
+      return options.filter(option => option.toLowerCase().includes(filterValue));
+    } else {
+      return options;
+    }
   }
 
   onOptionSelected(choice: string){
