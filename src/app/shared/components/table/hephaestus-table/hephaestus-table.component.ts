@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
+import { mapToString } from "../../../utilities/map-to-string";
 import { toMetricItem } from "./items/ToMetricItem";
 
 @Component({
@@ -12,7 +13,7 @@ import { toMetricItem } from "./items/ToMetricItem";
 export class HephaestusTableComponent implements OnInit {
 
   private metrics: any;
-  private selectedLabelsSet: Set<Map<string, string>> = new Set <Map<string, string>>();
+  private selectedLabelsSet: Set<string> = new Set <string>();
   public selectedMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
 
@@ -30,7 +31,7 @@ export class HephaestusTableComponent implements OnInit {
       for (const metric of this.selectedMetrics) {
         metric.checkConflict(newMetric);
       }
-      this.selectedLabelsSet.add(newMetric.labels);
+      this.selectedLabelsSet.add(mapToString(newMetric.labels));
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -46,19 +47,19 @@ export class HephaestusTableComponent implements OnInit {
       this.selectedMetrics.splice(index, 1);
       index = this.selectedMetrics.indexOf(item);
     }
-    this.selectedLabelsSet.delete(item.labels);
+    this.selectedLabelsSet.delete(mapToString(item.labels));
     item.delete();
     // todo refresh available metrics
   }
 
   setAvailableList(newList: MetricItem[]) {
-    newList.filter((metric) => {!this.selectedLabelsSet.has(metric.labels)});
+    newList.filter((metric) => {!this.selectedLabelsSet.has(mapToString(metric.labels))});
     this.availableMetrics = newList;
   }
 
   clearSelected() {
     this.selectedMetrics = [];
-    this.selectedLabelsSet =new Set <Map<string, string>>(); 
+    this.selectedLabelsSet =new Set <string>(); 
     // todo refresh available
   }
 
