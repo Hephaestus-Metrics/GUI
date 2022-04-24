@@ -20,6 +20,8 @@ import { SearchFilterComponent } from './shared/components/search-filter/search-
 import {MainViewModule} from "./main/main-view/main-view.module";
 import {AdvancedViewModule} from "./advanced/advanced-view/advanced-view.module";
 import {RouterModule} from "@angular/router";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
     declarations: [
@@ -44,7 +46,9 @@ import {RouterModule} from "@angular/router";
         MainViewModule,
         AppRoutingModule,
         RouterModule,
-        AdvancedViewModule
+        AdvancedViewModule,
+        MatToolbarModule,
+        MatIconModule
     ],
     providers: [],
     bootstrap: [AppComponent]
