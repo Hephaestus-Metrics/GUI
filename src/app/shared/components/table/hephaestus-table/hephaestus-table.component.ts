@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
-import { mapToString } from "../../../utilities/map-to-string";
+import { mapToString } from "../../../utilities/MapToString";
 import { toMetricItem } from "./items/ToMetricItem";
 
 @Component({
