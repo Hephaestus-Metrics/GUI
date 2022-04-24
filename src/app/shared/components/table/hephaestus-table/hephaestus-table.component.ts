@@ -53,8 +53,13 @@ export class HephaestusTableComponent implements OnInit {
   }
 
   setAvailableList(newList: MetricItem[]) {
-    newList.filter((metric) => {!this.selectedLabelsSet.has(mapToString(metric.labels))});
-    this.availableMetrics = newList;
+    const res: MetricItem[] = [];
+    newList.forEach((metric) => { 
+      if (!this.selectedLabelsSet.has(mapToString(metric.labels))) { 
+        res.push(metric); 
+      } 
+    });
+    this.availableMetrics = res;
   }
 
   clearSelected() {
