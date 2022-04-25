@@ -45,14 +45,26 @@ export class SearchFilterComponent implements OnInit {
   }
 
   private filterOptions(options: string[], value: string): string[] {
-    if (value){
+    if (value) {
       const filterValue = value.toLowerCase();
-
-      // TODO improve this filter to sort by best match
-      return options.filter(option => option.toLowerCase().includes(filterValue));
-    } else {
-      return options;
+      options = options.filter(option => option.toLowerCase().includes(filterValue));
+      options.sort((a, b) => {
+        // if index of somehow turns to bottleneck KMP can be used
+        const idA: number = a.indexOf(filterValue);
+        const idB: number = b.indexOf(filterValue);
+        if (idA == idB) {
+          if (a.length == b.length) {
+            return a.localeCompare(b);
+          } else {
+            return a.length - b.length;
+          }
+        } else {
+          return idA - idB;
+        }
+      })
     }
+    
+    return options;
   }
 
   onOptionSelected(choice: string){
