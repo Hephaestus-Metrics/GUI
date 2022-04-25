@@ -17,7 +17,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AdvancedViewComponent } from './advanced/advanced-view/advanced-view.component';
 import { FooterComponent } from './shared/components/footer/footer/footer.component';
 import { HeaderComponent } from './shared/components/header/header/header.component';
-import { SearchFilterComponent } from './shared/components/search-filter/search-filter/search-filter.component';
 import {MainViewModule} from "./main/main-view/main-view.module";
 
 @NgModule({
@@ -26,7 +25,6 @@ import {MainViewModule} from "./main/main-view/main-view.module";
     AdvancedViewComponent,
     FooterComponent,
     HeaderComponent,
-    SearchFilterComponent,
   ],
   imports: [
     BrowserAnimationsModule,
