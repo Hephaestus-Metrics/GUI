@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
-import { mapToString } from "../../../utilities/MapToString";
 import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 
@@ -31,7 +30,7 @@ export class HephaestusTableComponent implements OnInit {
       for (const metric of this.selectedMetrics) {
         metric.checkConflict(newMetric);
       }
-      this.selectedLabelsSet.add(mapToString(newMetric.labels));
+      this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -47,24 +46,24 @@ export class HephaestusTableComponent implements OnInit {
       this.selectedMetrics.splice(index, 1);
       index = this.selectedMetrics.indexOf(item);
     }
-    this.selectedLabelsSet.delete(mapToString(item.labels));
+    this.selectedLabelsSet.delete(JSON.stringify(Array.from(item.labels.entries())));
     item.delete();
     // todo refresh available metrics
   }
 
   setAvailableList(newList: MetricItem[]) {
     const res: MetricItem[] = [];
-    newList.forEach((metric) => { 
-      if (!this.selectedLabelsSet.has(mapToString(metric.labels))) { 
-        res.push(metric); 
-      } 
+    newList.forEach((metric) => {
+      if (!this.selectedLabelsSet.has(JSON.stringify(Array.from(metric.labels.entries())))) {
+        res.push(metric);
+      }
     });
     this.availableMetrics = res;
   }
 
   clearSelected() {
     this.selectedMetrics = [];
-    this.selectedLabelsSet =new Set <string>(); 
+    this.selectedLabelsSet = new Set<string>();
     // todo refresh available
   }
 
@@ -76,7 +75,6 @@ export class HephaestusTableComponent implements OnInit {
   private getMetrics() {
     this.prometheusService.getDisplayableMetrics()
       .subscribe(metrics => {
-        console.log(toMetricItem(metrics))
         this.setAvailableList(toMetricItem(metrics));
       });
   }
