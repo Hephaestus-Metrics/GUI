@@ -4,6 +4,8 @@ import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
 import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
+import {DataProvider} from "../../../service/data-provider";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -16,10 +18,17 @@ export class HephaestusTableComponent implements OnInit {
   public selectedMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
 
-  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService) { }
+  private napis: string = "";
+  private filteredOptions: Observable<string[]> | null = null;
+
+  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService, private dataProvider: DataProvider) {
+    this.napis = this.dataProvider.getNapis();
+    this.filteredOptions = this.dataProvider.getFilteredOptions();
+  }
 
   ngOnInit(): void {
     this.getMetrics();
+    console.log(this.napis);
   }
 
   drop(event: CdkDragDrop<MetricItem[]>) {

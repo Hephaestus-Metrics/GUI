@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { map, Observable, startWith, Subject } from 'rxjs';
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 import { ENTER, TAB } from '@angular/cdk/keycodes';
+import {DataProvider} from "../../../service/data-provider";
 
 @Component({
   selector: 'app-search-filter',
@@ -26,14 +27,21 @@ export class SearchFilterComponent implements OnInit {
 
   filters: Map<string, string> = new Map();
 
-  constructor(private prometheusService: PrometheusService) { }
+
+  constructor(private prometheusService: PrometheusService, private dataProvider: DataProvider) {
+    console.log("ustawianie napisu");
+    this.dataProvider.setNapis("INNY NAPIS");
+  }
 
   ngOnInit(): void {
+    //to chyba trzeba przenieść do konstruktora, żeby działało :)
     this.options.asObservable().subscribe((options) => {
-      this.filteredOptions = this.formControl.valueChanges.pipe(
+      this.filteredOptions = this.formControl.valueChanges.pipe( //to można do osobnej funkcji
         startWith(''),
         map(value => this.filterOptions(options, value)),
       );
+      this.dataProvider.setFilteredOptions(this.filteredOptions);
+
     });
 
     this.prometheusService.getLabels().subscribe((labels) => {

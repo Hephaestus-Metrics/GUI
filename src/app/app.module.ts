@@ -22,6 +22,7 @@ import {RouterModule} from "@angular/router";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
+import {DataProvider} from "./shared/service/data-provider";
 
 @NgModule({
     declarations: [
@@ -50,7 +51,7 @@ import {MatCardModule} from "@angular/material/card";
         MatIconModule,
         MatCardModule
     ],
-    providers: [],
+    providers: [DataProvider],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
