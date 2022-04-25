@@ -18,13 +18,13 @@ export class SearchFilterComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, TAB]; //keys which trigger selecting active option in autocomplete
 
   options: Subject<string[]> = new Subject(); // autocomplete options (before filtering) as an observable subject
-  filteredOptions: Observable<string[]>|undefined;
+  filteredOptions: Observable<string[]> | null = null;
 
   allLabels: string[] = []
-  activeLabel: string|undefined; // label present inside search bar
-  activeValues: string[]|undefined; // possible values for activeLabel
+  activeLabel: string | null = null; // label present inside search bar
+  activeValues: string[] | null = null; // possible values for activeLabel
 
-  filters: Map<string, string> = new Map()
+  filters: Map<string, string> = new Map();
 
   constructor(private prometheusService: PrometheusService) { }
 
@@ -57,7 +57,7 @@ export class SearchFilterComponent implements OnInit {
 
   onOptionSelected(choice: string){
     // clear text
-    this.filterInput.nativeElement.value = ''
+    this.filterInput.nativeElement.value = '';
     this.formControl.setValue(null);
 
     if (!this.activeLabel) {
@@ -77,7 +77,7 @@ export class SearchFilterComponent implements OnInit {
       this.filters.set(this.activeLabel, choice);
       this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
 
-      this.activeLabel = undefined;
+      this.activeLabel = null;
       this.placeholderText = "Choose label";
       
       this.options.next(this.allLabels);
@@ -85,7 +85,7 @@ export class SearchFilterComponent implements OnInit {
   }
   
   onActiveLabelRemoved(label: string){
-    this.activeLabel = undefined;
+    this.activeLabel = null;
     this.placeholderText = "Choose label";
     this.options.next(this.allLabels);
   }
