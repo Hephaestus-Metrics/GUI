@@ -5,7 +5,6 @@ import { HephaestusService } from "../../../service/hephaestus/hephaestus.servic
 import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 import {DataProvider} from "../../../service/data-provider";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -16,21 +15,13 @@ export class HephaestusTableComponent implements OnInit {
 
   private selectedLabelsSet: Set<string> = new Set<string>();
   public selectedMetrics: MetricItem[] = [];
+  public filterMatchingMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
 
-  private napis: string = "";
-
-  private filters: Map<string, string> = new Map();
-
-
-  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService, private dataProvider: DataProvider) {
-    this.napis = this.dataProvider.getNapis();
-    this.filters = this.dataProvider.getFilters();
-  }
+  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService, private dataProvider: DataProvider) {}
 
   ngOnInit(): void {
     this.getMetrics();
-    console.log(this.filters);
   }
 
   drop(event: CdkDragDrop<MetricItem[]>) {
@@ -59,7 +50,11 @@ export class HephaestusTableComponent implements OnInit {
     }
     this.selectedLabelsSet.delete(JSON.stringify(Array.from(item.labels.entries())));
     item.delete();
-    // todo refresh available metrics
+    // update list to show unselected metric if it matches filter,
+    // can be optimized with binary insertion instead of refreshing
+    if (!item.isQuery) {
+      this.setAvailableList(this.filterMatchingMetrics);
+    }
   }
 
   setAvailableList(newList: MetricItem[]) {
@@ -69,18 +64,27 @@ export class HephaestusTableComponent implements OnInit {
         res.push(metric);
       }
     });
+    this.filterMatchingMetrics = newList;
     this.availableMetrics = res;
   }
 
   clearSelected() {
     this.selectedMetrics = [];
     this.selectedLabelsSet = new Set<string>();
-    // todo refresh available
+    this.availableMetrics = this.filterMatchingMetrics.slice();
   }
 
   addQuery() {
-    //TODO
-    console.log('Adding query from filters and looking for conflicts :)');
+    const map = new Map(this.dataProvider.getFilters());
+    if (map.size === 0){
+      return;
+    }
+    const newMetric = new MetricItem(map, true);
+    for (const metric of this.selectedMetrics) {
+      metric.checkConflict(newMetric);
+    }
+    this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
+    this.selectedMetrics.push(newMetric);
   }
 
   private getMetrics() {
