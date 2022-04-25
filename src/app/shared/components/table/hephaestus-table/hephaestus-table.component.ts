@@ -75,7 +75,6 @@ export class HephaestusTableComponent implements OnInit {
   private getMetrics() {
     this.prometheusService.getDisplayableMetrics()
       .subscribe(metrics => {
-        console.log(toMetricItem(metrics))
         this.setAvailableList(toMetricItem(metrics));
       });
   }
