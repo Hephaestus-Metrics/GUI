@@ -4,14 +4,13 @@ export class MetricItem {
 
     public readonly isQuery: boolean = false;
 
-    public parents: Set<MetricItem> = new Set<MetricItem>();
+    private parents: Set<MetricItem> = new Set<MetricItem>();
 
-    public children: Set<MetricItem> = new Set<MetricItem>();
+    private children: Set<MetricItem> = new Set<MetricItem>();
 
-    public hasConflict: boolean = false;
-
-    constructor(labels: Map<string, string>) {
+    constructor(labels: Map<string, string>, isQuery: boolean) {
         this.labels = labels;
+        this.isQuery = isQuery;
     }
 
     public getTextRepresentation(): string[] {
@@ -30,8 +29,8 @@ export class MetricItem {
         }
         shorter.children.add(longer);
         longer.parents.add(shorter);
-        longer.hasConflict = true;
         return true;
+        
     }
 
     public delete() {
@@ -40,9 +39,12 @@ export class MetricItem {
         }
         for (const child of this.children) {
             child.parents.delete(this);
-            if (child.parents.size === 0) {
-                child.hasConflict = false;
-            }
         }
+        this.parents = new Set<MetricItem>();
+        this.children = new Set<MetricItem>();
+    }
+
+    public hasConflict(): boolean {
+        return this.parents.size !== 0;
     }
 }
