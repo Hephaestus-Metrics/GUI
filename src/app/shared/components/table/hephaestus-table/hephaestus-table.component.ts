@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
+import { mapToString } from "../../../utilities/MapToString";
 import { toMetricItem } from "./items/ToMetricItem";
+import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -11,12 +13,11 @@ import { toMetricItem } from "./items/ToMetricItem";
 })
 export class HephaestusTableComponent implements OnInit {
 
-  private metrics: any;
-  private selectedLabelsSet: Set<Map<string, string>> = new Set <Map<string, string>>();
+  private selectedLabelsSet: Set<string> = new Set<string>();
   public selectedMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
 
-  constructor(private hephaestusService: HephaestusService) { }
+  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService) { }
 
   ngOnInit(): void {
     this.getMetrics();
@@ -30,7 +31,7 @@ export class HephaestusTableComponent implements OnInit {
       for (const metric of this.selectedMetrics) {
         metric.checkConflict(newMetric);
       }
-      this.selectedLabelsSet.add(newMetric.labels);
+      this.selectedLabelsSet.add(mapToString(newMetric.labels));
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -46,19 +47,24 @@ export class HephaestusTableComponent implements OnInit {
       this.selectedMetrics.splice(index, 1);
       index = this.selectedMetrics.indexOf(item);
     }
-    this.selectedLabelsSet.delete(item.labels);
+    this.selectedLabelsSet.delete(mapToString(item.labels));
     item.delete();
     // todo refresh available metrics
   }
 
   setAvailableList(newList: MetricItem[]) {
-    newList.filter((metric) => {!this.selectedLabelsSet.has(metric.labels)});
-    this.availableMetrics = newList;
+    const res: MetricItem[] = [];
+    newList.forEach((metric) => { 
+      if (!this.selectedLabelsSet.has(mapToString(metric.labels))) { 
+        res.push(metric); 
+      } 
+    });
+    this.availableMetrics = res;
   }
 
   clearSelected() {
     this.selectedMetrics = [];
-    this.selectedLabelsSet =new Set <Map<string, string>>(); 
+    this.selectedLabelsSet =new Set <string>(); 
     // todo refresh available
   }
 
@@ -68,11 +74,10 @@ export class HephaestusTableComponent implements OnInit {
   }
 
   private getMetrics() {
-    this.metrics = this.hephaestusService.getMetrics()
-      .pipe()
-      .subscribe(x => {
-        this.metrics = x.Data;
-        this.setAvailableList(toMetricItem(this.metrics));
+    this.prometheusService.getDisplayableMetrics()
+      .subscribe(metrics => {
+        console.log(toMetricItem(metrics))
+        this.setAvailableList(toMetricItem(metrics));
       });
   }
 

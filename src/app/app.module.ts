@@ -16,7 +16,6 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { FooterComponent } from './shared/components/footer/footer/footer.component';
 import { HeaderComponent } from './shared/components/header/header/header.component';
-import { SearchFilterComponent } from './shared/components/search-filter/search-filter/search-filter.component';
 import {MainViewModule} from "./main/main-view/main-view.module";
 import {AdvancedViewModule} from "./advanced/advanced-view/advanced-view.module";
 import {RouterModule} from "@angular/router";
