@@ -28,7 +28,6 @@ import {MatCardModule} from "@angular/material/card";
         AppComponent,
         FooterComponent,
         HeaderComponent,
-        SearchFilterComponent,
     ],
     imports: [
         BrowserAnimationsModule,
