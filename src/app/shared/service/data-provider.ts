@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
 
 @Injectable()
 export class DataProvider {
 
-    private filteredOptions: Observable<string[]> | null = null;
+    private filters: Map<string, string> = new Map();
+
     private napis: string = "jakis pierwszy napis";
 
     constructor() {}
@@ -17,11 +17,11 @@ export class DataProvider {
         return this.napis;
     }
 
-    getFilteredOptions(): Observable<string[]> | null {
-        return this.filteredOptions;
+    getFilters(): Map<string, string> {
+        return this.filters;
     }
 
-    setFilteredOptions(filteredOptions: Observable<string[]> | null): void {
-        this.filteredOptions = filteredOptions;
+    setFilters(filters: Map<string, string>): void {
+        this.filters = filters;
     }
 }

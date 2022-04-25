@@ -19,16 +19,18 @@ export class HephaestusTableComponent implements OnInit {
   public availableMetrics: MetricItem[] = [];
 
   private napis: string = "";
-  private filteredOptions: Observable<string[]> | null = null;
+
+  private filters: Map<string, string> = new Map();
+
 
   constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService, private dataProvider: DataProvider) {
     this.napis = this.dataProvider.getNapis();
-    this.filteredOptions = this.dataProvider.getFilteredOptions();
+    this.filters = this.dataProvider.getFilters();
   }
 
   ngOnInit(): void {
     this.getMetrics();
-    console.log(this.napis);
+    console.log(this.filters);
   }
 
   drop(event: CdkDragDrop<MetricItem[]>) {

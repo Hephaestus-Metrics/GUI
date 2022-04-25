@@ -34,14 +34,11 @@ export class SearchFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //to chyba trzeba przenieść do konstruktora, żeby działało :)
     this.options.asObservable().subscribe((options) => {
-      this.filteredOptions = this.formControl.valueChanges.pipe( //to można do osobnej funkcji
+      this.filteredOptions = this.formControl.valueChanges.pipe(
         startWith(''),
         map(value => this.filterOptions(options, value)),
       );
-      this.dataProvider.setFilteredOptions(this.filteredOptions);
-
     });
 
     this.prometheusService.getLabels().subscribe((labels) => {
@@ -95,6 +92,7 @@ export class SearchFilterComponent implements OnInit {
     } else {
       //user is inputting a value
       this.filters.set(this.activeLabel, choice);
+      this.updateGlobalFilters();
       this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
 
       this.activeLabel = null;
@@ -112,7 +110,12 @@ export class SearchFilterComponent implements OnInit {
 
   onFilterRemoved(label: string){
     this.filters.delete(label);
+    this.updateGlobalFilters();
     this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
+  }
+
+  private updateGlobalFilters(): void {
+    this.dataProvider.setFilters(this.filters);
   }
 
 }
