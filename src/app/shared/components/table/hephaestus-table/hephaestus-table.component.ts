@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
 import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 import {DataProvider} from "../../../service/data-provider";
+import { ElementRef } from '@angular/core';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -15,8 +17,10 @@ export class HephaestusTableComponent implements OnInit {
 
   private selectedLabelsSet: Set<string> = new Set<string>();
   public selectedMetrics: MetricItem[] = [];
-  public filterMatchingMetrics: MetricItem[] = [];
+  private filterMatchingMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
+  @ViewChild('leftTableScrollbar', {read: CdkScrollable}) 
+  private leftScrollBar: CdkScrollable =  {} as CdkScrollable;
 
   constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService, private dataProvider: DataProvider) {}
 
@@ -84,7 +88,8 @@ export class HephaestusTableComponent implements OnInit {
       metric.checkConflict(newMetric);
     }
     this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
-    this.selectedMetrics.push(newMetric);
+    this.selectedMetrics.unshift(newMetric);
+    this.leftScrollBar.scrollTo({top: 0});
   }
 
   private getMetrics() {
