@@ -29,8 +29,6 @@ export class SearchFilterComponent implements OnInit {
 
 
   constructor(private prometheusService: PrometheusService, private dataProvider: DataProvider) {
-    console.log("ustawianie napisu");
-    this.dataProvider.setNapis("INNY NAPIS");
   }
 
   ngOnInit(): void {
