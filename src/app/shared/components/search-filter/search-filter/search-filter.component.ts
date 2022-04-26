@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith, Subject } from 'rxjs';
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';

@@ -23,6 +23,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
 import {DataProvider} from "./shared/service/data-provider";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import {DataProvider} from "./shared/service/data-provider";
         AdvancedViewModule,
         MatToolbarModule,
         MatIconModule,
-        MatCardModule
+        MatCardModule,
+        MatDividerModule
     ],
     providers: [DataProvider],
     bootstrap: [AppComponent]

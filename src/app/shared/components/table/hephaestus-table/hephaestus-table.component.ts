@@ -99,4 +99,23 @@ export class HephaestusTableComponent implements OnInit {
       });
   }
 
+  saveMetrics() {
+    //todo
+    let metricsArray: string[][] = [];
+    let map: Map<string, string> = new Map();
+    map.set("key1", "value1");
+    map.set("key2", "value2");
+    console.log("powinno zapisac");
+    const selMet: MetricItem[] = [];
+    selMet.push(new MetricItem(map));
+    selMet.push(new MetricItem(map));
+    // this.selectedMetrics = selMet;
+    this.selectedMetrics.forEach(metric => {
+      let arr = Array.from((metric.labels.entries())).map(pair => pair[0] + ': ' + pair[1]);
+      metricsArray.push(arr);
+    });
+    console.log(metricsArray);
+    this.hephaestusService.saveMetrics(metricsArray);
+  }
+
 }
