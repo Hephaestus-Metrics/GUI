@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import {ExampleMetricDataDto} from "../../../response-data-dto/ExampleMetricDataDto";
-import {Observable} from "rxjs";
 import {BaseService} from "../base-service";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
-export class HephaestusService extends BaseService{
+export class HephaestusService extends BaseService {
 
-  private metricUrl: string = '/metrics';
+  private saveMetricUrl: string = '/hephaestus/metrics/save';
 
   constructor(http: HttpClient) {
     super(http);
   }
 
-  public getMetrics(): Observable<ExampleMetricDataDto> {
-    return this.get(this.metricUrl);
+  public saveMetrics(metrics: {}) { // todo add type
+    //todo REFACTOR !!! KS
+    return this.put(this.saveMetricUrl, metrics);
   }
+
 }

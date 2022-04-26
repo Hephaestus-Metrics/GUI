@@ -22,6 +22,7 @@ import {RouterModule} from "@angular/router";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
     declarations: [
@@ -48,7 +49,8 @@ import {MatCardModule} from "@angular/material/card";
         AdvancedViewModule,
         MatToolbarModule,
         MatIconModule,
-        MatCardModule
+        MatCardModule,
+        MatDividerModule
     ],
     providers: [],
     bootstrap: [AppComponent]

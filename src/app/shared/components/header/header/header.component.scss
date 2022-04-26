@@ -2,12 +2,30 @@
   flex: 1 1 auto;
 }
 
-.mat-button-base{
+.mat-button-base {
   margin: 8px;
 }
 
 .name-card{
-  background-color: #00ff00;
   border-radius: 30px;
   padding: 5px 10px;
+  margin-right: 10px;
+}
+
+.mat-toolbar {
+  background-color: #123C69;
+}
+
+.mat-raised-button {
+  background-color: #EEE2DC;
+}
+
+.mat-divider {
+  height: 64px;
+  border-right-color: white;
+  margin-right: 8px;
+}
+
+.mat-icon-button {
+  background-color: #EEE2DC;
 }
