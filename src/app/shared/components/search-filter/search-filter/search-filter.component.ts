@@ -53,8 +53,8 @@ export class SearchFilterComponent implements OnInit {
       options = options.filter(option => option.toLowerCase().includes(filterValue));
       options.sort((a, b) => {
         // if index of somehow turns to bottleneck KMP can be used
-        const idA: number = a.indexOf(filterValue);
-        const idB: number = b.indexOf(filterValue);
+        const idA: number = a.toLowerCase().indexOf(filterValue);
+        const idB: number = b.toLowerCase().indexOf(filterValue);
         if (idA == idB) {
           if (a.length == b.length) {
             return a.localeCompare(b);
