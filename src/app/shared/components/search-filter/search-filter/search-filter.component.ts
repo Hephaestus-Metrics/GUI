@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { map, Observable, startWith, Subject } from 'rxjs';
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 import { ENTER, TAB } from '@angular/cdk/keycodes';
+import {DataProvider} from "../../../service/data-provider";
 
 @Component({
   selector: 'app-search-filter',
@@ -26,7 +27,9 @@ export class SearchFilterComponent implements OnInit {
 
   filters: Map<string, string> = new Map();
 
-  constructor(private prometheusService: PrometheusService) { }
+
+  constructor(private prometheusService: PrometheusService, private dataProvider: DataProvider) {
+  }
 
   ngOnInit(): void {
     this.options.asObservable().subscribe((options) => {
@@ -87,6 +90,7 @@ export class SearchFilterComponent implements OnInit {
     } else {
       //user is inputting a value
       this.filters.set(this.activeLabel, choice);
+      this.updateGlobalFilters();
       this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
 
       this.activeLabel = null;
@@ -104,7 +108,12 @@ export class SearchFilterComponent implements OnInit {
 
   onFilterRemoved(label: string){
     this.filters.delete(label);
+    this.updateGlobalFilters();
     this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
+  }
+
+  private updateGlobalFilters(): void {
+    this.dataProvider.setFilters(this.filters);
   }
 
 }

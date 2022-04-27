@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
 import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
+import {DataProvider} from "../../../service/data-provider";
+import { ElementRef } from '@angular/core';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -14,9 +17,12 @@ export class HephaestusTableComponent implements OnInit {
 
   private selectedLabelsSet: Set<string> = new Set<string>();
   public selectedMetrics: MetricItem[] = [];
+  private filterMatchingMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
+  @ViewChild('leftTableScrollbar', {read: CdkScrollable}) 
+  private leftScrollBar: CdkScrollable =  {} as CdkScrollable;
 
-  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService) { }
+  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService, private dataProvider: DataProvider) {}
 
   ngOnInit(): void {
     this.getMetrics();
@@ -48,7 +54,11 @@ export class HephaestusTableComponent implements OnInit {
     }
     this.selectedLabelsSet.delete(JSON.stringify(Array.from(item.labels.entries())));
     item.delete();
-    // todo refresh available metrics
+    // update list to show unselected metric if it matches filter,
+    // can be optimized with binary insertion instead of refreshing
+    if (!item.isQuery) {
+      this.setAvailableList(this.filterMatchingMetrics);
+    }
   }
 
   setAvailableList(newList: MetricItem[]) {
@@ -58,18 +68,28 @@ export class HephaestusTableComponent implements OnInit {
         res.push(metric);
       }
     });
+    this.filterMatchingMetrics = newList;
     this.availableMetrics = res;
   }
 
   clearSelected() {
     this.selectedMetrics = [];
     this.selectedLabelsSet = new Set<string>();
-    // todo refresh available
+    this.availableMetrics = this.filterMatchingMetrics.slice();
   }
 
   addQuery() {
-    //TODO
-    console.log('Adding query from filters and looking for conflicts :)');
+    const map = new Map(this.dataProvider.getFilters());
+    if (map.size === 0){
+      return;
+    }
+    const newMetric = new MetricItem(map, true);
+    for (const metric of this.selectedMetrics) {
+      metric.checkConflict(newMetric);
+    }
+    this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
+    this.selectedMetrics.unshift(newMetric);
+    this.leftScrollBar.scrollTo({top: 0});
   }
 
   private getMetrics() {
