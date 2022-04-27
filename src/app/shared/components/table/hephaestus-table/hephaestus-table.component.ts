@@ -107,8 +107,8 @@ export class HephaestusTableComponent implements OnInit {
     map.set("key2", "value2");
     console.log("powinno zapisac");
     const selMet: MetricItem[] = [];
-    selMet.push(new MetricItem(map));
-    selMet.push(new MetricItem(map));
+    selMet.push(new MetricItem(map, false));
+    selMet.push(new MetricItem(map, false));
     // this.selectedMetrics = selMet;
     this.selectedMetrics.forEach(metric => {
       let arr = Array.from((metric.labels.entries())).map(pair => pair[0] + ': ' + pair[1]);
