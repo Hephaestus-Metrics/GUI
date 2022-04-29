@@ -4,6 +4,7 @@ import { map, Observable, startWith, Subject } from 'rxjs';
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 import { ENTER, TAB } from '@angular/cdk/keycodes';
 import {DataProvider} from "../../../service/data-provider";
+import { Filters } from 'src/app/shared/models/metrics/filters.model';
 
 @Component({
   selector: 'app-search-filter',
@@ -25,8 +26,7 @@ export class SearchFilterComponent implements OnInit {
   activeLabel: string | null = null; // label present inside search bar
   activeValues: string[] | null = null; // possible values for activeLabel
 
-  filters: Map<string, string> = new Map();
-
+  filters: Filters = new Filters();
 
   constructor(private prometheusService: PrometheusService, private dataProvider: DataProvider) {
   }
@@ -89,9 +89,11 @@ export class SearchFilterComponent implements OnInit {
       });
     } else {
       //user is inputting a value
-      this.filters.set(this.activeLabel, choice);
+      this.filters.add(this.activeLabel, choice);
       this.updateGlobalFilters();
-      this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
+      this.prometheusService.displayResult(
+        this.prometheusService.queryByFilters(this.filters)
+      );
 
       this.activeLabel = null;
       this.placeholderText = "Choose label";
@@ -109,11 +111,13 @@ export class SearchFilterComponent implements OnInit {
   onFilterRemoved(label: string){
     this.filters.delete(label);
     this.updateGlobalFilters();
-    this.prometheusService.queryAndDisplay(this.prometheusService.filtersToQuery(this.filters));
+    this.prometheusService.displayResult(
+      this.prometheusService.queryByFilters(this.filters)
+    );
   }
 
   private updateGlobalFilters(): void {
-    this.dataProvider.setFilters(this.filters);
+    this.dataProvider.setFilters(this.filters.values);
   }
 
 }
