@@ -13,6 +13,10 @@ export class BaseService {
         return this.http.get<T>(this.backendUrl + url);
     }
 
+    post<T>(url: string, body: any): Observable<T> {
+        return this.http.post<T>(this.backendUrl + url, body);
+    }
+
     put<T>(url: string, body: any) {
         // todo KS
         this.http.put<any>(this.backendUrl + url, body)
