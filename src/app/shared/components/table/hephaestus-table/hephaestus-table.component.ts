@@ -7,6 +7,7 @@ import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.
 import {DataProvider} from "../../../service/data-provider";
 import { ElementRef } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
+import {MetricsAdapterService} from "../../../service/metrics-adapter/metrics-adapter.service";
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -22,7 +23,11 @@ export class HephaestusTableComponent implements OnInit {
   @ViewChild('leftTableScrollbar', {read: CdkScrollable}) 
   private leftScrollBar: CdkScrollable =  {} as CdkScrollable;
 
-  constructor(private hephaestusService: HephaestusService, private prometheusService: PrometheusService, private dataProvider: DataProvider) {}
+  constructor(
+      private hephaestusService: HephaestusService,
+      private prometheusService: PrometheusService,
+      private dataProvider: DataProvider,
+      private metricsAdapterService: MetricsAdapterService) {}
 
   ngOnInit(): void {
     this.getMetrics();
@@ -102,20 +107,13 @@ export class HephaestusTableComponent implements OnInit {
   saveMetrics() {
     //todo
     let metricsArray: string[][] = [];
-    let map: Map<string, string> = new Map();
-    map.set("key1", "value1");
-    map.set("key2", "value2");
-    console.log("powinno zapisac");
-    const selMet: MetricItem[] = [];
-    selMet.push(new MetricItem(map, false));
-    selMet.push(new MetricItem(map, false));
-    // this.selectedMetrics = selMet;
+    console.log(this.selectedMetrics);
     this.selectedMetrics.forEach(metric => {
       let arr = Array.from((metric.labels.entries())).map(pair => pair[0] + ': ' + pair[1]);
       metricsArray.push(arr);
     });
-    console.log(metricsArray);
     this.hephaestusService.saveMetrics(metricsArray);
+    this.metricsAdapterService.runRules(metricsArray);
   }
 
 }
