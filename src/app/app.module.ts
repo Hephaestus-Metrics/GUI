@@ -22,6 +22,7 @@ import {RouterModule} from "@angular/router";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
+import {MatMenuModule} from "@angular/material/menu";
 import {DataProvider} from "./shared/service/data-provider";
 import {MatDividerModule} from "@angular/material/divider";
 
@@ -51,6 +52,7 @@ import {MatDividerModule} from "@angular/material/divider";
         MatToolbarModule,
         MatIconModule,
         MatCardModule,
+        MatMenuModule,
         MatDividerModule
     ],
     providers: [DataProvider],
