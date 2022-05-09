@@ -5,13 +5,14 @@
   height: 600px;
   margin: 20px auto auto;
   text-align: center;
+  display: flex;
+  flex-direction: row;
 }
 
 .list-container {
   width: 45%;
   height: 100%;
-  margin: 0px 20px 15px;
-  display: inline-block;
+  margin: 0px 25px 15px;
   vertical-align: top;
 }
 
