@@ -1,11 +1,13 @@
 <div class="table-container">
     <div class="list-container">
         <div class="table-header">
-            <h2 style="float: left;">Selected Metrics</h2>
-            <button mat-button style="float: right; margin-right: 5px" (click)="saveMetrics()">
+            <h2>Selected Metrics</h2>
+            <button mat-button class="headerButton" (click)="saveMetrics()">
                 Save metrics
             </button>
-            <button mat-button style="float: right; margin-right: 5px" (click)="clearSelected()">Clear All</button>
+            <button mat-button class="headerButton" (click)="clearSelected()">
+                Clear All
+            </button>
         </div>
         <div #leftTableScrollbar style="height: 500px; overflow-y: auto; position: relative" cdkScrollable>
             <div cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selectedMetrics" class="example-list"
@@ -25,8 +27,8 @@
 
     <div class="list-container">
         <div class="table-header">
-            <h2 style="float: left;">Available Metrics</h2>
-            <button mat-button style="float: right; margin-right: 5px"  (click)="addQuery()">Select All as a Query</button>
+            <h2>Available Metrics</h2>
+            <button mat-button class="headerButton"  (click)="addQuery()">Select All as a Query</button>
         </div>
         <div style="height: 500px; overflow-y: auto" cdkScrollable>
             <div cdkDropList #availableList="cdkDropList" [cdkDropListData]="availableMetrics"
