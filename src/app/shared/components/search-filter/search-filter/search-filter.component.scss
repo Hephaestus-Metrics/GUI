@@ -7,3 +7,7 @@
     padding-left: 10px;
     border-radius: 10px;
 }
+::ng-deep .mat-chip-list-wrapper{
+    margin: 0 !important;
+}
+

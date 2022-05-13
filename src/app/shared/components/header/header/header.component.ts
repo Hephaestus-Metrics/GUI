@@ -12,4 +12,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public loadPreviousMetrics(){
+    console.log("load previous metrics");
+  }
+
 }
