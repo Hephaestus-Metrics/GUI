@@ -4,11 +4,12 @@ import { MetricItem } from "./items/MetricItem";
 import { HephaestusService } from "../../../service/hephaestus/hephaestus.service";
 import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
-import {DataProvider} from "../../../service/data-provider";
+import { DataProvider } from "../../../service/data-provider";
 import { ElementRef } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import {MetricsAdapterService} from "../../../service/metrics-adapter/metrics-adapter.service";
+import { MetricsAdapterService } from "../../../service/metrics-adapter/metrics-adapter.service";
 import { Filters } from 'src/app/shared/models/metrics/filters.model';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -21,17 +22,31 @@ export class HephaestusTableComponent implements OnInit {
   public selectedMetrics: MetricItem[] = [];
   private filterMatchingMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
-  @ViewChild('leftTableScrollbar', {read: CdkScrollable}) 
-  private leftScrollBar: CdkScrollable =  {} as CdkScrollable;
+  @ViewChild('leftTableScrollbar', { read: CdkScrollable })
+  private leftScrollBar: CdkScrollable = {} as CdkScrollable;
 
   constructor(
-      private hephaestusService: HephaestusService,
-      private prometheusService: PrometheusService,
-      private dataProvider: DataProvider,
-      private metricsAdapterService: MetricsAdapterService) {}
+    private hephaestusService: HephaestusService,
+    private prometheusService: PrometheusService,
+    private dataProvider: DataProvider,
+    private metricsAdapterService: MetricsAdapterService) { }
 
   ngOnInit(): void {
     this.getMetrics();
+    const data = this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
+      for (const metric of savedFilters) {
+        const labels: Map<string, string> = new Map();
+        for (const val in metric.values) {
+          labels.set(val, metric.values[val]);
+        }
+        const newMetric: MetricItem = new MetricItem(labels, metric.isQuery);
+        for (const metric of this.selectedMetrics) {
+          metric.checkConflict(newMetric);
+        }
+        this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
+        this.selectedMetrics.push(newMetric);
+      }
+    });
   }
 
   drop(event: CdkDragDrop<MetricItem[]>) {
@@ -86,7 +101,7 @@ export class HephaestusTableComponent implements OnInit {
 
   addQuery() {
     const map = new Map(this.dataProvider.getFilters());
-    if (map.size === 0){
+    if (map.size === 0) {
       return;
     }
     const newMetric = new MetricItem(map, true);
@@ -95,7 +110,7 @@ export class HephaestusTableComponent implements OnInit {
     }
     this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
     this.selectedMetrics.unshift(newMetric);
-    this.leftScrollBar.scrollTo({top: 0});
+    this.leftScrollBar.scrollTo({ top: 0 });
   }
 
   private getMetrics() {
@@ -108,7 +123,7 @@ export class HephaestusTableComponent implements OnInit {
   saveMetrics() {
     //todo
     const metricsArray = this.selectedMetrics.map((metric) => {
-      return new Filters(metric.labels);
+      return new Filters(metric.labels, metric.isQuery);
     })
     this.hephaestusService.saveMetrics(metricsArray);
     this.metricsAdapterService.runRules(metricsArray);
