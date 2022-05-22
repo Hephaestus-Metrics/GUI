@@ -1,7 +1,7 @@
 
 export class Filters {
 
-    values: Map<string, string> = new Map();
+    constructor (public values: Map<string, string> = new Map()) { }
 
     add(label: string, value: string) {
         this.values.set(label, value);

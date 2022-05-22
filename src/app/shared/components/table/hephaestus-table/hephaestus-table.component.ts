@@ -8,6 +8,7 @@ import {DataProvider} from "../../../service/data-provider";
 import { ElementRef } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import {MetricsAdapterService} from "../../../service/metrics-adapter/metrics-adapter.service";
+import { Filters } from 'src/app/shared/models/metrics/filters.model';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -106,12 +107,9 @@ export class HephaestusTableComponent implements OnInit {
 
   saveMetrics() {
     //todo
-    let metricsArray: string[][] = [];
-    console.log(this.selectedMetrics);
-    this.selectedMetrics.forEach(metric => {
-      let arr = Array.from((metric.labels.entries())).map(pair => pair[0] + ': ' + pair[1]);
-      metricsArray.push(arr);
-    });
+    const metricsArray = this.selectedMetrics.map((metric) => {
+      return new Filters(metric.labels);
+    })
     this.hephaestusService.saveMetrics(metricsArray);
     this.metricsAdapterService.runRules(metricsArray);
   }
