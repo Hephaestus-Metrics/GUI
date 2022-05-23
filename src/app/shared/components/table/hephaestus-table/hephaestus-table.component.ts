@@ -29,7 +29,7 @@ export class HephaestusTableComponent implements OnInit {
     private hephaestusService: HephaestusService,
     private prometheusService: PrometheusService,
     private dataProvider: DataProvider,
-    private metricsAdapterService: MetricsAdapterService) { }
+    ) { }
 
   ngOnInit(): void {
     this.getMetrics();
@@ -126,7 +126,6 @@ export class HephaestusTableComponent implements OnInit {
       return new Filters(metric.labels, metric.isQuery);
     })
     this.hephaestusService.saveMetrics(metricsArray);
-    this.metricsAdapterService.runRules(metricsArray);
   }
 
 }
