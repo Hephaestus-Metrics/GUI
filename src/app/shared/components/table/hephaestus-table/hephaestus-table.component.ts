@@ -33,6 +33,10 @@ export class HephaestusTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMetrics();
+    this.loadSavedMetrics();
+  }
+
+  loadSavedMetrics(): void{
     const data = this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
       for (const metric of savedFilters) {
         const labels: Map<string, string> = new Map();
