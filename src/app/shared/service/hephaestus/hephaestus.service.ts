@@ -12,7 +12,7 @@ export class HephaestusService extends BaseService {
   private saveMetricUrl: string = '/hephaestus/metrics/save';
 
   //todo change to actual link from config
-  private savedMetricUrl: string = 'http://localhost:8080/hephaestus/metrics/saved/';
+  private savedMetricUrl: string = '/hephaestus/metrics/saved/';
 
   constructor(http: HttpClient) {
     super(http);
@@ -24,7 +24,7 @@ export class HephaestusService extends BaseService {
   }
 
   public getSavedMetrics(): Observable<any[]>{
-    return this.http.get<any[]>(this.savedMetricUrl);
+    return this.get<any[]>(this.savedMetricUrl);
   }
 
 }
