@@ -19,7 +19,7 @@ export class HephaestusService extends BaseService {
   }
 
   public saveMetrics(metrics: {}) { // todo add type
-    //todo REFACTOR !!! KS]
+    //todo REFACTOR !!! KS
     return this.put(this.saveMetricUrl, metrics);
   }
 
