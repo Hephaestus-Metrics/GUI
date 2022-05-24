@@ -1,7 +1,7 @@
 
 export class Filters {
 
-    constructor (public values: Map<string, string> = new Map()) { }
+    constructor (public values: Map<string, string> = new Map(), public isQuery: boolean = false) { }
 
     add(label: string, value: string) {
         this.values.set(label, value);
@@ -16,7 +16,7 @@ export class Filters {
         for (let entry of this.values.entries()){
             mapObject[entry[0]] = entry[1];
         }
-        return { 'values': mapObject };
+        return { 'values': mapObject, 'isQuery': this.isQuery};
     }
 
 }
