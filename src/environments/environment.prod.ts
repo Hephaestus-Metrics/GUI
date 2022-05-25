@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  backendUrl: 'http://hephaestus-gui-backend:8080',
+  backendUrl: `${window.location.protocol}//${window.location.host}`,
   metricsAdapterUrl: 'http://localhost:8081>>>TO-CHANGE<<<'
 };
