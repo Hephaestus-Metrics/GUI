@@ -7,7 +7,7 @@ The GUI can be accessed on `<SERVICE ADDRESS: SERVICE PORT>/app/index.html` when
 
 ![image](https://user-images.githubusercontent.com/73036080/174442088-fb3d0719-16f4-4520-b747-cbb12e62ded7.png)
 
-In order to deploy application on Kubernetes Cluter and getting `<SERVICE ADDRESS: SERVICE PORT>` see [Hephaestus Deployment](https://github.com/Hephaestus-Metrics/Deployment)
+In order to deploy application on Kubernetes Cluter and get `<SERVICE ADDRESS: SERVICE PORT>` see [Hephaestus Deployment](https://github.com/Hephaestus-Metrics/Deployment)
 
 To get more information about Hpheastus GUI [click here](https://github.com/Hephaestus-Metrics/GUI-backend)
 
@@ -23,3 +23,6 @@ When you are done with selection simply click "Save metrics" to save and propaga
 Click on "Clear All" to clear current metrics' selection.
 ### Complex Queries
 Work in progress
+
+## Implementation details
+Hephaestus GUI frontend is based on Angular 13.3.1 and Node.js 12.11.1 and compatible with newer versions.
