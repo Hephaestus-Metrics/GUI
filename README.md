@@ -7,6 +7,8 @@ Hephaestus GUI allows to select specific metrics based on their labels' values.
 
 In order to deploy application on Kubernetes Cluter see [Hephaestus Deployment](https://github.com/Hephaestus-Metrics/Deployment)
 
+To get more information about Hpheastus GUI [click here](https://github.com/Hephaestus-Metrics/GUI-backend)
+
 ## Quick user guide
 ### Searching for metric
 Metrics can be filtred using their labels' values. In order to filter metric type in and select label name in search bar. Next type in and select value for given label.
