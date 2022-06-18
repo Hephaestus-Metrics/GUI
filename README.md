@@ -3,9 +3,11 @@ This Repository contains front end part of [Hephaestus Project](https://github.c
 
 Hephaestus GUI allows to select specific metrics based on their labels' values.
 
+The GUI can be accessed on `<SERVICE ADDRESS: SERVICE PORT>/app/index.html` when deployed.
+
 ![image](https://user-images.githubusercontent.com/73036080/174442088-fb3d0719-16f4-4520-b747-cbb12e62ded7.png)
 
-In order to deploy application on Kubernetes Cluter see [Hephaestus Deployment](https://github.com/Hephaestus-Metrics/Deployment)
+In order to deploy application on Kubernetes Cluter and getting `<SERVICE ADDRESS: SERVICE PORT>` see [Hephaestus Deployment](https://github.com/Hephaestus-Metrics/Deployment)
 
 To get more information about Hpheastus GUI [click here](https://github.com/Hephaestus-Metrics/GUI-backend)
 
