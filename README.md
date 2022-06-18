@@ -1,5 +1,6 @@
 # Hephaestus Gui - Frontend
-This Repository contains front end part of [Hephaestus Project]((https://github.com/Hephaestus-Metrics)) GUI
+This Repository contains front end part of [Hephaestus Project](https://github.com/Hephaestus-Metrics) GUI.
+
 Hephaestus GUI allows to select specific metrics based on their labels' values.
 
 ![image](https://user-images.githubusercontent.com/73036080/174442088-fb3d0719-16f4-4520-b747-cbb12e62ded7.png)
