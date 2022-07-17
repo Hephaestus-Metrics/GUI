@@ -20,8 +20,10 @@ export class HephaestusTableComponent implements OnInit {
   public selectedMetrics: MetricItem[] = [];
   private filterMatchingMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
-  @ViewChild('leftTableScrollbar', {read: CdkScrollable}) 
-  private leftScrollBar: CdkScrollable =  {} as CdkScrollable;
+  @ViewChild('selectedTableScrollbar', {read: CdkScrollable}) 
+  private selectedScrollBar: CdkScrollable =  {} as CdkScrollable;
+  @ViewChild('availableTableScrollbar', {read: CdkScrollable}) 
+  private availableScrollBar: CdkScrollable =  {} as CdkScrollable;
   public availableMetricsPageIndex: number = 0;
   public availableMetricsPageSize: number = 10;
   public selectedMetricsPageIndex: number = 0;
@@ -35,10 +37,6 @@ export class HephaestusTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMetrics();
-    for (let i = 1; i < 1000; i++){
-      this.availableMetrics.push(new MetricItem(new Map([[i.toString(), "b"], ["a1", "b2"], ["a3", "b"], ["a4", "b"]]), false));
-    }
-    this.availableMetrics.forEach(x => this.filterMatchingMetrics.push(x));
   }
 
   itemsInRange(min: number, max: number, source: any[]){
@@ -49,10 +47,11 @@ export class HephaestusTableComponent implements OnInit {
     return res;
   }
 
- 
-  // todo: if sb knows how to pass number by ref in ts 2 functions below could be merged
   changeAvailableMetricsPage(event: PageEvent){
-    this.availableMetricsPageIndex = event.pageIndex;
+    if (this.availableMetricsPageIndex !== event.pageIndex){
+      this.availableMetricsPageIndex = event.pageIndex;
+      this.availableScrollBar.scrollTo({top: 0});
+    }
     if (this.availableMetricsPageSize !== event.pageSize){
       this.availableMetricsPageSize  = event.pageSize;
       // current strategy for size change - go to the beginning of the list
@@ -61,7 +60,10 @@ export class HephaestusTableComponent implements OnInit {
  }
 
  changeSelectedMetricsPage(event: PageEvent){
-  this.selectedMetricsPageIndex = event.pageIndex;
+  if (this.selectedMetricsPageIndex !== event.pageIndex){
+    this.selectedMetricsPageIndex = event.pageIndex;
+    this.selectedScrollBar.scrollTo({top: 0});
+  }
   if (this.selectedMetricsPageSize !== event.pageSize){
     this.selectedMetricsPageSize  = event.pageSize;
     // current strategy for size change - go to the beginning of the list
@@ -131,7 +133,8 @@ export class HephaestusTableComponent implements OnInit {
     }
     this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
     this.selectedMetrics.unshift(newMetric);
-    this.leftScrollBar.scrollTo({top: 0});
+    this.selectedMetricsPageIndex = 0;
+    this.selectedScrollBar.scrollTo({top: 0});
   }
 
   private getMetrics() {
