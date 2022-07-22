@@ -79,7 +79,6 @@ export class HephaestusTableComponent implements OnInit {
       for (const metric of this.selectedMetrics) {
         metric.checkConflict(newMetric);
       }
-      console.log(sourceTableOffset, destinationTableOffset);
       this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
       transferArrayItem(
         event.previousContainer.data,
