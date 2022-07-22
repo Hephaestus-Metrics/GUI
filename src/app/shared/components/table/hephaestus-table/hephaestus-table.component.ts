@@ -5,11 +5,9 @@ import { HephaestusService } from "../../../service/hephaestus/hephaestus.servic
 import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 import { DataProvider } from "../../../service/data-provider";
-import { ElementRef } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MetricsAdapterService } from "../../../service/metrics-adapter/metrics-adapter.service";
-import { Filters } from 'src/app/shared/models/metrics/filters.model';
-import { take } from 'rxjs';
+import {PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -22,40 +20,60 @@ export class HephaestusTableComponent implements OnInit {
   public selectedMetrics: MetricItem[] = [];
   private filterMatchingMetrics: MetricItem[] = [];
   public availableMetrics: MetricItem[] = [];
-  @ViewChild('leftTableScrollbar', { read: CdkScrollable })
-  private leftScrollBar: CdkScrollable = {} as CdkScrollable;
+  @ViewChild('selectedTableScrollbar', {read: CdkScrollable}) 
+  private selectedScrollBar: CdkScrollable =  {} as CdkScrollable;
+  @ViewChild('availableTableScrollbar', {read: CdkScrollable}) 
+  private availableScrollBar: CdkScrollable =  {} as CdkScrollable;
+  public availableMetricsPageIndex: number = 0;
+  public availableMetricsPageSize: number = 10;
+  public selectedMetricsPageIndex: number = 0;
+  public selectedMetricsPageSize: number = 10;
 
   constructor(
-    private hephaestusService: HephaestusService,
-    private prometheusService: PrometheusService,
-    private dataProvider: DataProvider,
-    ) { }
+      private hephaestusService: HephaestusService,
+      private prometheusService: PrometheusService,
+      private dataProvider: DataProvider,
+      private metricsAdapterService: MetricsAdapterService) {}
 
   ngOnInit(): void {
     this.getMetrics();
-    this.loadSavedMetrics();
   }
 
-  loadSavedMetrics(): void{
-    const data = this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
-      for (const metric of savedFilters) {
-        const labels: Map<string, string> = new Map();
-        for (const val in metric.values) {
-          labels.set(val, metric.values[val]);
-        }
-        const newMetric: MetricItem = new MetricItem(labels, metric.isQuery);
-        for (const metric of this.selectedMetrics) {
-          metric.checkConflict(newMetric);
-        }
-        this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
-        this.selectedMetrics.push(newMetric);
-      }
-    });
+  itemsInRange(min: number, max: number, source: any[]){
+    let res: any[] = [];
+    for (let i = min; i < Math.min(max, source.length); i++){
+      res.push(source[i]);
+    }
+    return res;
   }
 
-  drop(event: CdkDragDrop<MetricItem[]>) {
+  changeAvailableMetricsPage(event: PageEvent){
+    if (this.availableMetricsPageIndex !== event.pageIndex){
+      this.availableMetricsPageIndex = event.pageIndex;
+      this.availableScrollBar.scrollTo({top: 0});
+    }
+    if (this.availableMetricsPageSize !== event.pageSize){
+      this.availableMetricsPageSize  = event.pageSize;
+      // current strategy for size change - go to the beginning of the list
+      this.availableMetricsPageIndex = 0;
+    }
+ }
+
+ changeSelectedMetricsPage(event: PageEvent){
+  if (this.selectedMetricsPageIndex !== event.pageIndex){
+    this.selectedMetricsPageIndex = event.pageIndex;
+    this.selectedScrollBar.scrollTo({top: 0});
+  }
+  if (this.selectedMetricsPageSize !== event.pageSize){
+    this.selectedMetricsPageSize  = event.pageSize;
+    // current strategy for size change - go to the beginning of the list
+    this.selectedMetricsPageIndex = 0;
+  }
+}
+
+  drop(event: CdkDragDrop<MetricItem[]>, sourceTableOffset: number, destinationTableOffset: number) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(event.container.data, event.previousIndex + destinationTableOffset, event.currentIndex + destinationTableOffset);
     } else {
       const newMetric: MetricItem = event.previousContainer.data[event.previousIndex];
       for (const metric of this.selectedMetrics) {
@@ -65,8 +83,8 @@ export class HephaestusTableComponent implements OnInit {
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
-        event.previousIndex,
-        event.currentIndex,
+        event.previousIndex + sourceTableOffset,
+        event.currentIndex + destinationTableOffset,
       );
     }
   }
@@ -105,7 +123,7 @@ export class HephaestusTableComponent implements OnInit {
 
   addQuery() {
     const map = new Map(this.dataProvider.getFilters());
-    if (map.size === 0) {
+    if (map.size === 0){
       return;
     }
     const newMetric = new MetricItem(map, true);
@@ -114,7 +132,8 @@ export class HephaestusTableComponent implements OnInit {
     }
     this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
     this.selectedMetrics.unshift(newMetric);
-    this.leftScrollBar.scrollTo({ top: 0 });
+    this.selectedMetricsPageIndex = 0;
+    this.selectedScrollBar.scrollTo({top: 0});
   }
 
   private getMetrics() {
@@ -126,10 +145,14 @@ export class HephaestusTableComponent implements OnInit {
 
   saveMetrics() {
     //todo
-    const metricsArray = this.selectedMetrics.map((metric) => {
-      return new Filters(metric.labels, metric.isQuery);
-    })
+    let metricsArray: string[][] = [];
+    console.log(this.selectedMetrics);
+    this.selectedMetrics.forEach(metric => {
+      let arr = Array.from((metric.labels.entries())).map(pair => pair[0] + ': ' + pair[1]);
+      metricsArray.push(arr);
+    });
     this.hephaestusService.saveMetrics(metricsArray);
+    this.metricsAdapterService.runRules(metricsArray);
   }
 
 }

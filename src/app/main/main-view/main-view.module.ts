@@ -21,6 +21,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {HephaestusTableComponent} from "../../shared/components/table/hephaestus-table/hephaestus-table.component";
 import { SearchFilterComponent } from 'src/app/shared/components/search-filter/search-filter/search-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatPaginatorModule,
   ],
   providers: [HephaestusService],
   exports: [

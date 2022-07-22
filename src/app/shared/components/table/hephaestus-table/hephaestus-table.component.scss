@@ -2,7 +2,7 @@
 
 .table-container {
   width: 80%;
-  height: 600px;
+  height: 700px;
   margin: 20px auto auto;
   text-align: center;
   display: flex;
@@ -105,4 +105,9 @@
 
 h2{
   float: left;
+}
+
+.mat-paginator{
+  height: 8%;
+  border: solid 1px #ccc;
 }
