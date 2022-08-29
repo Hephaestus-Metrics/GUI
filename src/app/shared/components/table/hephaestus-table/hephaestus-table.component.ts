@@ -7,7 +7,9 @@ import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.
 import { DataProvider } from "../../../service/data-provider";
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MetricsAdapterService } from "../../../service/metrics-adapter/metrics-adapter.service";
-import {PageEvent} from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
+import { Filters } from 'src/app/shared/models/metrics/filters.model';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-hephaestus-table',
@@ -32,11 +34,28 @@ export class HephaestusTableComponent implements OnInit {
   constructor(
       private hephaestusService: HephaestusService,
       private prometheusService: PrometheusService,
-      private dataProvider: DataProvider,
-      private metricsAdapterService: MetricsAdapterService) {}
+      private dataProvider: DataProvider,) {}
 
   ngOnInit(): void {
     this.getMetrics();
+    this.loadSavedMetrics();
+  }
+
+  loadSavedMetrics(): void{
+    const data = this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
+      for (const metric of savedFilters) {
+        const labels: Map<string, string> = new Map();
+        for (const val in metric.values) {
+          labels.set(val, metric.values[val]);
+        }
+        const newMetric: MetricItem = new MetricItem(labels, metric.isQuery);
+        for (const metric of this.selectedMetrics) {
+          metric.checkConflict(newMetric);
+        }
+        this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
+        this.selectedMetrics.push(newMetric);
+      }
+    });
   }
 
   itemsInRange(min: number, max: number, source: any[]){
@@ -145,14 +164,10 @@ export class HephaestusTableComponent implements OnInit {
 
   saveMetrics() {
     //todo
-    let metricsArray: string[][] = [];
-    console.log(this.selectedMetrics);
-    this.selectedMetrics.forEach(metric => {
-      let arr = Array.from((metric.labels.entries())).map(pair => pair[0] + ': ' + pair[1]);
-      metricsArray.push(arr);
-    });
+    const metricsArray = this.selectedMetrics.map((metric) => {
+      return new Filters(metric.labels, metric.isQuery);
+    })
     this.hephaestusService.saveMetrics(metricsArray);
-    this.metricsAdapterService.runRules(metricsArray);
   }
 
 }
