@@ -26,7 +26,7 @@
 </form>
 
 <mat-chip-list aria-label="Selected Filters">
-    <mat-chip *ngFor="let entry of filters.values | keyvalue" (removed)="onFilterRemoved(entry.key)">
+    <mat-chip *ngFor="let entry of filters.filters | keyvalue" (removed)="onFilterRemoved(entry.key)">
         {{entry.key}}:{{entry.value}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>

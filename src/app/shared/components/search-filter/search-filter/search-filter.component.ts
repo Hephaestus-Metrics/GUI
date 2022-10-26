@@ -117,7 +117,7 @@ export class SearchFilterComponent implements OnInit {
   }
 
   private updateGlobalFilters(): void {
-    this.dataProvider.setFilters(this.filters.values);
+    this.dataProvider.setFilters(this.filters.filters);
   }
 
 }

@@ -43,10 +43,12 @@ export class HephaestusTableComponent implements OnInit {
 
   loadSavedMetrics(): void{
     const data = this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
+      console.log("savedFilters: ");
+      console.log(savedFilters);
       for (const metric of savedFilters) {
         const labels: Map<string, string> = new Map();
-        for (const val in metric.values) {
-          labels.set(val, metric.values[val]);
+        for (const val in metric.filters) {
+          labels.set(val, metric.filters[val]);
         }
         const newMetric: MetricItem = new MetricItem(labels, metric.isQuery);
         for (const metric of this.selectedMetrics) {
@@ -54,6 +56,7 @@ export class HephaestusTableComponent implements OnInit {
         }
         this.selectedLabelsSet.add(JSON.stringify(Array.from(newMetric.labels.entries())));
         this.selectedMetrics.push(newMetric);
+        console.log(newMetric);
       }
     });
   }
@@ -165,7 +168,7 @@ export class HephaestusTableComponent implements OnInit {
   saveMetrics() {
     //todo
     const metricsArray = this.selectedMetrics.map((metric) => {
-      return new Filters(metric.labels, metric.isQuery);
+      return new Filters(metric.labels);
     })
     this.hephaestusService.saveMetrics(metricsArray);
   }
