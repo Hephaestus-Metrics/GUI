@@ -11,8 +11,6 @@ export class AdvancedViewComponent implements OnInit {
     @ViewChild('tagInput') tagInput!: ElementRef
     @ViewChild('queryInput') queryInput!: ElementRef
 
-    placeholderText: string = "Choose tag";
-
     customQueries: CustomQuery[] = [];
 
     constructor(private hephaestusService: HephaestusService) {
