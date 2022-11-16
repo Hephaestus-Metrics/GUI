@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {CustomQuery} from "../../shared/models/metrics/customQuery.model";
+import {CustomQuery} from "../../shared/models/metrics/custom-query.model";
 import {HephaestusService} from "../../shared/service/hephaestus/hephaestus.service";
+import {take} from "rxjs";
 
 @Component({
     selector: 'app-advanced-view',
@@ -17,6 +18,7 @@ export class AdvancedViewComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.loadSavedMetrics();
     }
 
     addCustomQuery(event: any) {
@@ -48,11 +50,22 @@ export class AdvancedViewComponent implements OnInit {
     }
 
     queriesToJson() {
-        const arr = [];
+        const arr: Array<{ tag: string, queryString: string }> = [];
         for (const customQuery of this.customQueries) {
             arr.push(customQuery.toJSON());
         }
         console.log(arr);
         return arr;
+    }
+
+    loadSavedMetrics() {
+        this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedQueries: Array<{ tag: string, queryString: string }>) => {
+            console.log("savedQueries: ");
+            console.log(savedQueries);
+            for (const savedQuery of savedQueries) {
+                    this.customQueries.push(new CustomQuery(savedQuery.tag, savedQuery.queryString));
+                }
+            }
+        )
     }
 }
