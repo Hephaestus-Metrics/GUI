@@ -9,22 +9,29 @@ import { Observable } from 'rxjs';
 })
 export class HephaestusService extends BaseService {
 
-  private saveMetricUrl: string = '/hephaestus/metrics/save';
-
-  //todo change to actual link from config
-  private savedMetricUrl: string = '/hephaestus/metrics/saved/';
+  private saveSimpleMetricUrl: string = '/hephaestus/queries/simple';
+  private saveCustomMetricUrl: string = '/hephaestus/queries/custom'
 
   constructor(http: HttpClient) {
     super(http);
   }
 
-  public saveMetrics(metrics: {}) { // todo add type
+  public saveSimpleMetrics(metrics: {}) { // todo add type
     //todo REFACTOR !!! KS
-    return this.put(this.saveMetricUrl, metrics);
+    return this.put(this.saveSimpleMetricUrl, metrics);
   }
 
-  public getSavedMetrics(): Observable<any[]>{
-    return this.get<any[]>(this.savedMetricUrl);
+  public getSavedSimpleMetrics(): Observable<any[]>{
+    return this.get<any[]>(this.saveSimpleMetricUrl);
+  }
+
+  public saveCustomMetrics(metrics: {}) { // todo add type
+    //todo REFACTOR !!! KS
+    return this.put(this.saveCustomMetricUrl, metrics);
+  }
+
+  public getSavedCustomMetrics(): Observable<any[]>{
+    return this.get<any[]>(this.saveCustomMetricUrl);
   }
 
 }

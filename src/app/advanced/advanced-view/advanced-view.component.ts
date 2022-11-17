@@ -42,7 +42,7 @@ export class AdvancedViewComponent implements OnInit {
     }
 
     sendCustomQuery() {
-        this.hephaestusService.saveMetrics(this.queriesToJson());
+        this.hephaestusService.saveCustomMetrics(this.queriesToJson());
     }
 
     validateInput(tag: string, query: string) {
@@ -59,7 +59,7 @@ export class AdvancedViewComponent implements OnInit {
     }
 
     loadSavedMetrics() {
-        this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedQueries: Array<{ tag: string, queryString: string }>) => {
+        this.hephaestusService.getSavedCustomMetrics().pipe(take(1)).subscribe((savedQueries: Array<{ tag: string, queryString: string }>) => {
             console.log("savedQueries: ");
             console.log(savedQueries);
             for (const savedQuery of savedQueries) {

@@ -42,7 +42,7 @@ export class HephaestusTableComponent implements OnInit {
   }
 
   loadSavedMetrics(): void{
-    const data = this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
+    const data = this.hephaestusService.getSavedSimpleMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
       console.log("savedFilters: ");
       console.log(savedFilters);
       for (const metric of savedFilters) {
@@ -170,7 +170,7 @@ export class HephaestusTableComponent implements OnInit {
     const metricsArray = this.selectedMetrics.map((metric) => {
       return new Filters(metric.labels);
     })
-    this.hephaestusService.saveMetrics(metricsArray);
+    this.hephaestusService.saveSimpleMetrics(metricsArray);
   }
 
 }
