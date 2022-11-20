@@ -41,7 +41,7 @@ export class AdvancedViewComponent implements OnInit {
         this.customQueries.splice(id, 1);
     }
 
-    sendCustomQuery() {
+    saveCustomQuery() {
         this.hephaestusService.saveCustomMetrics(this.queriesToJson());
     }
 
