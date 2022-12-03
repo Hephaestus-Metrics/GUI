@@ -1,4 +1,5 @@
 export class CustomQuery {
+// check if toJSON is necessary
     tag: string;
     query: string;
 
