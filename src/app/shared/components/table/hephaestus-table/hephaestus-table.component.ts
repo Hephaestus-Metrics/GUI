@@ -41,8 +41,8 @@ export class HephaestusTableComponent implements OnInit {
     this.loadSavedMetrics();
   }
 
-  loadSavedMetrics(): void{
-    const data = this.hephaestusService.getSavedMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
+  loadSavedMetrics(): void {
+    const data = this.hephaestusService.getSavedSimpleMetrics().pipe(take(1)).subscribe((savedFilters: any[]) => {
       for (const metric of savedFilters) {
         const labels: Map<string, string> = new Map();
         for (const val in metric.filters) {
@@ -167,7 +167,7 @@ export class HephaestusTableComponent implements OnInit {
     const metricsArray = this.selectedMetrics.map((metric) => {
       return new Filters(metric.labels);
     })
-    this.hephaestusService.saveMetrics(metricsArray);
+    this.hephaestusService.saveSimpleMetrics(metricsArray);
   }
 
 }

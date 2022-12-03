@@ -1,1 +1,36 @@
-<p>advanced-view works!</p>
+<form class="custom-form" (submit)="addCustomQuery($event)">
+    <mat-form-field class="tag" appearance="legacy">
+        <mat-label>Tag input</mat-label>
+        <input
+            #tagInput
+            autocomplete="off"
+            matInput>
+    </mat-form-field>
+    <mat-form-field class="query" appearance="legacy">
+        <mat-label>Query input</mat-label>
+        <input
+            #queryInput
+            autocomplete="off"
+            matInput>
+    </mat-form-field>
+    <button mat-button class="addButton">
+        Add custom query
+    </button>
+</form>
+
+<div class="queries-container">
+    <div class="header">
+        <h2>Custom queries</h2>
+        <button mat-button class="saveButton" (click)="saveCustomQuery()">
+            Save custom queries
+        </button>
+    </div>
+    <div class="scrollable">
+        <div class="query-container" *ngFor="let query of customQueries">
+            TAG: {{query.tag}}
+            <br/>
+            QUERY: {{query.query}}
+            <button mat-button class="removeButton" (click)="removeCustomQuery(customQueries.indexOf(query))">X</button>
+        </div>
+    </div>
+</div>
