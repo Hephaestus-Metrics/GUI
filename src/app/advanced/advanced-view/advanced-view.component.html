@@ -21,8 +21,8 @@
 <div class="queries-container">
     <div class="header">
         <h2>Custom queries</h2>
-        <button mat-button class="saveButton" (click)="saveCustomQuery()">
-            Save custom queries
+        <button mat-icon-button matTooltip="Save custom queries" class="saveButton" (click)="saveCustomQuery()">
+            <mat-icon>save</mat-icon>
         </button>
     </div>
     <div class="scrollable">
@@ -30,7 +30,9 @@
             TAG: {{query.tag}}
             <br/>
             QUERY: {{query.query}}
-            <button mat-button class="removeButton" (click)="removeCustomQuery(customQueries.indexOf(query))">X</button>
+            <button mat-icon-button (click)="removeCustomQuery(customQueries.indexOf(query))">
+                <mat-icon>delete</mat-icon>
+            </button>
         </div>
     </div>
 </div>
