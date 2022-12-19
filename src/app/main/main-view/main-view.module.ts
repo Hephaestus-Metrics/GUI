@@ -22,6 +22,7 @@ import {HephaestusTableComponent} from "../../shared/components/table/hephaestus
 import { SearchFilterComponent } from 'src/app/shared/components/search-filter/search-filter/search-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -29,26 +30,27 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     HephaestusTableComponent,
     SearchFilterComponent,
   ],
-  imports: [
-    BrowserAnimationsModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    DragDropModule,
-    BrowserModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatPaginatorModule,
-  ],
+    imports: [
+        BrowserAnimationsModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSliderModule,
+        MatSlideToggleModule,
+        DragDropModule,
+        BrowserModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        MatPaginatorModule,
+        MatTooltipModule,
+    ],
   providers: [HephaestusService],
   exports: [
     MainViewComponent
