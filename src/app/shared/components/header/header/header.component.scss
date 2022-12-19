@@ -6,18 +6,16 @@
   margin: 8px;
 }
 
-.name-card{
-  border-radius: 30px;
-  padding: 5px 10px;
-  margin-right: 10px;
-}
-
 .mat-toolbar {
   background-color: #123C69;
 }
 
-.mat-raised-button {
-  background-color: #EEE2DC;
+.mat-button {
+  color: #EEE2DC;
+}
+
+.mat-button:hover {
+  background-color: #2f7ac5;
 }
 
 .mat-divider {
