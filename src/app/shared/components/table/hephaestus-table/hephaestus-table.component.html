@@ -6,7 +6,7 @@
                 <mat-icon>arrow_forward</mat-icon>
             </button>
         </div>
-        <div #availableTableScrollbar style="height: 500px; overflow-y: auto" cdkScrollable>
+        <div #availableTableScrollbar style="height: 500px; min-width: calc(100% + 5px); overflow-y: auto" cdkScrollable>
             <div cdkDropList #availableList="cdkDropList" [cdkDropListData]="availableMetrics"
                 [cdkDropListConnectedTo]="[selectedList]" class="example-list"
                 (cdkDropListDropped)="drop($event, -1, availableMetricsPageSize * availableMetricsPageIndex)">
@@ -38,7 +38,7 @@
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
-        <div #selectedTableScrollbar style="height: 500px; overflow-y: auto; position: relative" cdkScrollable>
+        <div #selectedTableScrollbar style="height: 500px; min-width: calc(100% + 5px); overflow-y: auto; position: relative" cdkScrollable>
             <div cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selectedMetrics" class="example-list"
                 (cdkDropListDropped)="drop($event, availableMetricsPageSize * availableMetricsPageIndex, selectedMetricsPageSize * selectedMetricsPageIndex)">
                 <div class="example-box" *ngFor="let metric of itemsInRange(

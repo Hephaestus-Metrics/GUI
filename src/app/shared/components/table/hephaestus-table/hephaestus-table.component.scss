@@ -23,7 +23,7 @@
 .table-header {
   text-align: left;
   background-color: #EDC7B7;
-  width: calc(100% - 5px);
+  width: 100%;
   height: 7%;
   padding: 5px 0px 0px 5px;
 }
@@ -103,4 +103,5 @@ h2{
 .mat-paginator{
   height: 8%;
   border: solid 1px #ccc;
+  min-width: calc(100% + 5px);
 }
