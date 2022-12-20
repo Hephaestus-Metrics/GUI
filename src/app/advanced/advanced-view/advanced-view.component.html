@@ -1,18 +1,19 @@
 <form class="custom-form" (submit)="addCustomQuery($event)">
     <mat-form-field class="tag" appearance="legacy">
-        <mat-label>Tag input</mat-label>
+        <mat-label>Enter tag</mat-label>
         <input
             #tagInput
             autocomplete="off"
             matInput>
     </mat-form-field>
     <mat-form-field class="query" appearance="legacy">
-        <mat-label>Query input</mat-label>
+        <mat-label>Enter query</mat-label>
         <input
             #queryInput
             autocomplete="off"
             matInput>
     </mat-form-field>
+    <span class="spacer"></span>
     <button mat-button class="addButton">
         Add custom query
     </button>
