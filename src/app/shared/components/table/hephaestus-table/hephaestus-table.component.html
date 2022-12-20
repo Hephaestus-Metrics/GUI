@@ -10,6 +10,9 @@
             <div cdkDropList #availableList="cdkDropList" [cdkDropListData]="availableMetrics"
                 [cdkDropListConnectedTo]="[selectedList]" class="example-list"
                 (cdkDropListDropped)="drop($event, -1, availableMetricsPageSize * availableMetricsPageIndex)">
+                <div class="placeholder" *ngIf="availableMetrics.length == 0">
+                    <p>To see available metrics, select at least<br>one filter at the top of the page.</p>
+                </div>
                 <div class="example-box labels-container" *ngFor="let metric of itemsInRange(
                         availableMetricsPageIndex * availableMetricsPageSize, 
                         (availableMetricsPageIndex + 1) * availableMetricsPageSize, 
@@ -41,6 +44,9 @@
         <div #selectedTableScrollbar style="height: 500px; min-width: calc(100% + 5px); overflow-y: auto; position: relative" cdkScrollable>
             <div cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selectedMetrics" class="example-list"
                 (cdkDropListDropped)="drop($event, availableMetricsPageSize * availableMetricsPageIndex, selectedMetricsPageSize * selectedMetricsPageIndex)">
+                <div class="placeholder" *ngIf="selectedMetrics.length == 0">
+                    <p>To select a metric, drag it from<br>Available Metrics table to this one.</p>
+                </div>
                 <div class="example-box" *ngFor="let metric of itemsInRange(
                         selectedMetricsPageIndex * selectedMetricsPageSize,
                         (selectedMetricsPageIndex + 1) * selectedMetricsPageSize, 
