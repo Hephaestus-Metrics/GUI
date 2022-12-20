@@ -27,6 +27,9 @@
         </button>
     </div>
     <div class="scrollable">
+        <div class="placeholder" *ngIf="customQueries.length == 0">
+            <p>To add a custom query, enter tag and query itself at the top of the page.</p>
+        </div>
         <div class="query-container" *ngFor="let query of customQueries">
             TAG: {{query.tag}}
             <br/>
