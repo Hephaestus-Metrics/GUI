@@ -63,8 +63,14 @@
   justify-content: space-between;
 }
 
-.no-flex-stretch {
-  align-self: center;
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.conflict-icon {
+  padding-top: 5px;
 }
 
 .metric-label {
