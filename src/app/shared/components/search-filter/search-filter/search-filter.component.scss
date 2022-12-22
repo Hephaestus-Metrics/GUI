@@ -8,6 +8,9 @@
     padding-left: 10px;
     border-radius: 10px;
     height: 60px;
+    .mat-chip {
+        margin: 0 !important;
+    }
 }
 
 .chip-wrapper {
