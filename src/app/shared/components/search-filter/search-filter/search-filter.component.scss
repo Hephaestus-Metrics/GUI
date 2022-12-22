@@ -4,17 +4,19 @@
     background-color: white;
     position: relative;
     margin-top: 15px;
+    margin-bottom: 10px;
     padding-left: 10px;
     border-radius: 10px;
     height: 60px;
 }
-::ng-deep .mat-chip-list-wrapper{
-    margin: 0 !important;
-}
 
 .chip-wrapper {
     margin-left: 10%;
-    min-height: 80px;
+    min-height: 50px;
     width: 80%;
+    margin-bottom: 20px;
+    .mat-chip {
+        margin: 10px 5px 0 0 !important;
+    }
 }
 
