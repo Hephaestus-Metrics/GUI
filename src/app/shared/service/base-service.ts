@@ -18,7 +18,6 @@ export class BaseService {
     }
 
     put<T>(url: string, body: any) {
-        // todo KS
         this.http.put<any>(this.backendUrl + url, body)
             .subscribe({
                 next: (data: any) => {

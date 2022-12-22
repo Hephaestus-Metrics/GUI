@@ -13,8 +13,7 @@ export class MetricsAdapterService extends BaseMetricsAdapterService {
         super(http);
     }
 
-    public runRules(metrics: {}) { // add type
-        console.log(metrics);
+    public runRules(metrics: {}) {
         return this.post(this.runRulesUrl, metrics);
     }
 
