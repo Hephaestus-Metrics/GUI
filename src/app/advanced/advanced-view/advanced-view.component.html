@@ -34,7 +34,7 @@
             TAG: {{query.tag}}
             <br/>
             QUERY: {{query.query}}
-            <button mat-icon-button (click)="removeCustomQuery(customQueries.indexOf(query))">
+            <button mat-icon-button (click)="removeCustomQuery(customQueries.indexOf(query))" matTooltip="Remove custom query">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
