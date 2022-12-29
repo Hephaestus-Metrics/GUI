@@ -21,8 +21,8 @@
 
 <div class="queries-container">
     <div class="header">
-        <h2>Custom queries</h2>
-        <button mat-icon-button matTooltip="Save custom queries" class="saveButton" (click)="saveCustomQuery()">
+        <div class="table-header-text">Custom queries</div>
+        <button mat-icon-button matTooltip="Save custom queries" class="saveButton metric-button" (click)="saveCustomQuery()">
             <mat-icon>save</mat-icon>
         </button>
     </div>
@@ -34,7 +34,7 @@
             TAG: {{query.tag}}
             <br/>
             QUERY: {{query.query}}
-            <button mat-icon-button (click)="removeCustomQuery(customQueries.indexOf(query))" matTooltip="Remove custom query">
+            <button mat-icon-button class="metric-button" (click)="removeCustomQuery(customQueries.indexOf(query))" matTooltip="Remove custom query">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>

@@ -6,7 +6,7 @@
     margin-top: 15px;
     margin-bottom: 10px;
     padding-left: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     height: 60px;
     .mat-chip {
         margin: 0 !important;
@@ -20,6 +20,8 @@
     margin-bottom: 20px;
     .mat-chip {
         margin: 10px 5px 0 0 !important;
+        background: #F2F0EF !important;
+        border: solid 1px lightgray !important;
     }
 }
 

@@ -1,7 +1,7 @@
 <div class="table-container">
     <div class="list-container">
         <div class="table-header">
-            <h2>Available Metrics</h2>
+            <div class="table-header-text">Available Metrics</div>
             <button mat-icon-button matTooltip="Select all as a query" class="headerButton" (click)="addQuery()">
                 <mat-icon>arrow_forward</mat-icon>
             </button>
@@ -33,7 +33,7 @@
 
     <div class="list-container">
         <div class="table-header">
-            <h2>Selected Metrics</h2>
+            <div class="table-header-text">Selected Metrics</div>
             <button mat-icon-button matTooltip="Save metrics" class="headerButton" (click)="saveMetrics()">
                 <mat-icon>save</mat-icon>
             </button>
@@ -59,7 +59,7 @@
                         <div *ngIf="metric.hasConflict()">
                             <span class="material-icons yellow-color conflict-icon" matTooltip="Redundant metric">warning</span>
                         </div>
-                        <button mat-icon-button (click)="unselectMetric(metric)" matTooltip="Remove metric">
+                        <button mat-icon-button (click)="unselectMetric(metric)" matTooltip="Remove metric" class="remove-metric-button">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>

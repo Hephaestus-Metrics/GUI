@@ -10,7 +10,7 @@
   position: relative;
   margin-top: 15px;
   padding-left: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   height: 60px;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .mat-button {
-  background-color: #AC3B61;
+  background-color: #d2e4ee;
 }
 
 .addButton {
@@ -55,10 +55,10 @@ h2 {
 .query-container {
   text-align: left;
   padding: 20px 10px;
-  border: solid 1px #EEE2DC;
-  border-radius: 10px;
+  border: solid 1px #EEF5FC;
+  border-radius: 5px;
   color: rgba(0, 0, 0, 0.87);
-  background: #EEE2DC;
+  background: #EEF5FC;
   font-size: 14px;
   margin: 10px 10px 10px 0;
   display: flex;
@@ -70,20 +70,26 @@ h2 {
 
 .header {
   text-align: left;
-  background-color: #EDC7B7;
+  background-color: #FFFFFF;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: solid 1px lightgray;
+  border-bottom: solid 1px black;
   width: 100%;
-  height: 7%;
+  height: 8.5%;
   padding: 5px 0 0 0;
 }
 
 .scrollable {
   height: 600px;
+  width: 1458px;
   overflow-y: scroll;
   overflow-x: hidden;
   border: solid 1px #ccc;
-  border-right: none;
   background-color: white;
   padding: 0px 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .placeholder {
@@ -95,4 +101,14 @@ h2 {
     color: #aaaaaa;
     font-size: 24px;
   }
+}
+
+.table-header-text {
+  font-size: 18px;
+  padding-left: 10px;
+  color: #333;
+}
+
+.metric-button:hover {
+  background: lightgray;
 }
