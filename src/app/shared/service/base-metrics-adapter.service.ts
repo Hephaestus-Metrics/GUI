@@ -11,7 +11,6 @@ export class BaseMetricsAdapterService {
     }
 
     post<T>(url: string, body: any): Subscription {
-        //todo some popup for users
         return this.http.post<T>(this.metricsAdapterUrl + url, body)
             .subscribe({
                 next: (data: any) => {

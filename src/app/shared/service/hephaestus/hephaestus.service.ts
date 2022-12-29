@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BaseService} from "../base-service";
 import {HttpClient} from "@angular/common/http";
-import { Filters } from '../../models/metrics/filters.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,8 +15,7 @@ export class HephaestusService extends BaseService {
     super(http);
   }
 
-  public saveSimpleMetrics(metrics: {}) { // todo add type
-    //todo REFACTOR !!! KS
+  public saveSimpleMetrics(metrics: {}) {
     return this.put(this.saveSimpleMetricUrl, metrics);
   }
 
@@ -25,8 +23,7 @@ export class HephaestusService extends BaseService {
     return this.get<any[]>(this.saveSimpleMetricUrl);
   }
 
-  public saveCustomMetrics(metrics: {}) { // todo add type
-    //todo REFACTOR !!! KS
+  public saveCustomMetrics(metrics: {}) {
     return this.put(this.saveCustomMetricUrl, metrics);
   }
 
