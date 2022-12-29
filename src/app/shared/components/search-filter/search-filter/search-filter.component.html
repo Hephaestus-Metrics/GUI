@@ -27,8 +27,8 @@
 
 <div class="chip-wrapper">
     <mat-chip-list aria-label="Selected Filters">
-        <mat-chip>
-            dsfdsfdsf:dfdfdf
+      <mat-chip *ngFor="let entry of filters.filters | keyvalue" (removed)="onFilterRemoved(entry.key)">
+            {{entry.key}}:{{entry.value}}
             <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
             </button>
