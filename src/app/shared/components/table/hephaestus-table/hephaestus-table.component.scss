@@ -102,8 +102,10 @@
 }
 
 .headerButton {
+  //position: absolute;
   float: right;
   margin-right: 5px;
+  margin-top: 18px;
 }
 
 .headerButton:hover {
@@ -134,9 +136,11 @@ h2{
 }
 
 .table-header-text {
+  position: absolute;
   font-size: 18px;
   padding-left: 10px;
   color: #333;
+  padding-top: 32px;
 }
 
 .remove-metric-button:hover {
