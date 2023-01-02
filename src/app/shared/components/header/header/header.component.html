@@ -1,12 +1,9 @@
 <mat-toolbar>
-    <mat-card class="name-card">
-        <mat-card-title>HEPHAESTUS</mat-card-title>
-    </mat-card>
-    <mat-divider vertical></mat-divider>
-    <a mat-raised-button routerLink="">Simple queries</a>
-    <a mat-raised-button routerLink="advanced">Custom queries</a>
+    <a mat-button routerLink="" style="color: #EC785B">HEPHAESTUS</a>
+    <a mat-button routerLink="">Simple queries</a>
+    <a mat-button routerLink="advanced">Custom queries</a>
     <span class="spacer"></span>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button style="display: none;" mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu">

@@ -31,7 +31,7 @@ export class PrometheusService extends BaseService {
   }
 
   private queryResponseToMetrics(response: QueryResponse): Array<Metric> {
-    if (!response.data) {
+    if (!response || !response.data) {
       // no data returned
       return [];
     }

@@ -1,13 +1,18 @@
 <div class="table-container">
     <div class="list-container">
         <div class="table-header">
-            <h2>Available Metrics</h2>
-            <button mat-button class="headerButton" (click)="addQuery()">Select All as a Query</button>
+            <div class="table-header-text">Available Metrics</div>
+            <button mat-icon-button matTooltip="Select all as a query" class="headerButton" (click)="addQuery()">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
         </div>
-        <div #availableTableScrollbar style="height: 500px; overflow-y: auto" cdkScrollable>
+        <div #availableTableScrollbar style="height: 500px; min-width: calc(100% + 5px); overflow-y: auto" cdkScrollable>
             <div cdkDropList #availableList="cdkDropList" [cdkDropListData]="availableMetrics"
                 [cdkDropListConnectedTo]="[selectedList]" class="example-list"
                 (cdkDropListDropped)="drop($event, -1, availableMetricsPageSize * availableMetricsPageIndex)">
+                <div class="placeholder" *ngIf="availableMetrics.length == 0">
+                    <p>To see available metrics, select at least<br>one filter at the top of the page.</p>
+                </div>
                 <div class="example-box labels-container" *ngFor="let metric of itemsInRange(
                         availableMetricsPageIndex * availableMetricsPageSize, 
                         (availableMetricsPageIndex + 1) * availableMetricsPageSize, 
@@ -24,19 +29,24 @@
 
     </div>
 
+    <span class="spacer"></span>
+
     <div class="list-container">
         <div class="table-header">
-            <h2>Selected Metrics</h2>
-            <button mat-button class="headerButton" (click)="saveMetrics()">
-                Save metrics
+            <div class="table-header-text">Selected Metrics</div>
+            <button mat-icon-button matTooltip="Save metrics" class="headerButton" (click)="saveMetrics()">
+                <mat-icon>save</mat-icon>
             </button>
-            <button mat-button class="headerButton" (click)="clearSelected()">
-                Clear All
+            <button mat-icon-button matTooltip="Clear all" class="headerButton" (click)="clearSelected()">
+                <mat-icon>delete</mat-icon>
             </button>
         </div>
-        <div #selectedTableScrollbar style="height: 500px; overflow-y: auto; position: relative" cdkScrollable>
+        <div #selectedTableScrollbar style="height: 500px; min-width: calc(100% + 5px); overflow-y: auto; position: relative" cdkScrollable>
             <div cdkDropList #selectedList="cdkDropList" [cdkDropListData]="selectedMetrics" class="example-list"
                 (cdkDropListDropped)="drop($event, availableMetricsPageSize * availableMetricsPageIndex, selectedMetricsPageSize * selectedMetricsPageIndex)">
+                <div class="placeholder" *ngIf="selectedMetrics.length == 0">
+                    <p>To select a metric, drag it from<br>Available Metrics table to this one.</p>
+                </div>
                 <div class="example-box" *ngFor="let metric of itemsInRange(
                         selectedMetricsPageIndex * selectedMetricsPageSize,
                         (selectedMetricsPageIndex + 1) * selectedMetricsPageSize, 
@@ -45,10 +55,14 @@
                     <div class="labels-container">
                         <div *ngFor="let item of metric.getTextRepresentation()" class="metric-label">{{item}}</div>
                     </div>
-                    <div *ngIf="metric.hasConflict()" class="no-flex-stretch">
-                        <span class="material-icons yellow-color">warning</span>
+                    <div class="button-wrapper">
+                        <div *ngIf="metric.hasConflict()">
+                            <span class="material-icons yellow-color conflict-icon" matTooltip="Redundant metric">warning</span>
+                        </div>
+                        <button mat-icon-button (click)="unselectMetric(metric)" matTooltip="Remove metric" class="remove-metric-button">
+                            <mat-icon>delete</mat-icon>
+                        </button>
                     </div>
-                    <button mat-button (click)="unselectMetric(metric)" class="cross-btn no-flex-stretch">X</button>
                 </div>
             </div>
         </div>

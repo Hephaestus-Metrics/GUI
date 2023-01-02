@@ -6,7 +6,6 @@ import { toMetricItem } from "./items/ToMetricItem";
 import { PrometheusService } from 'src/app/shared/service/prometheus/prometheus.service';
 import { DataProvider } from "../../../service/data-provider";
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { MetricsAdapterService } from "../../../service/metrics-adapter/metrics-adapter.service";
 import { PageEvent } from '@angular/material/paginator';
 import { Filters } from 'src/app/shared/models/metrics/filters.model';
 import { take } from 'rxjs';
@@ -163,7 +162,6 @@ export class HephaestusTableComponent implements OnInit {
   }
 
   saveMetrics() {
-    //todo
     const metricsArray = this.selectedMetrics.map((metric) => {
       return new Filters(metric.labels);
     })
